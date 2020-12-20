@@ -26,6 +26,9 @@ void GyroAccel::pull(uint8_t* buf, uint8_t len) {
 
 
 void GyroAccel::gyroStart(){
+
+	Wire.begin();
+
   Wire.beginTransmission(0x68);  //start a transmission with the gyro (address 68 for me, not 69)
   Wire.write(0x6B);              //register for power management
   Wire.write(0);                 //disable sleep mode, 'wake up' the device
@@ -45,10 +48,10 @@ void GyroAccel::gyroStart(){
 
 
 void GyroAccel::getGyroValues(){
-  Wire.beginTransmission(0x68);       //start a transmission with the gyro
-  Wire.write(0x3B);                   //begin with the ACCEL_XOUT_H register, the rest of the data registers begin there
-  Wire.endTransmission(false);        //nothing else to write, but leave the bus commumincation open (false) so the next command can be run
-  Wire.requestFrom(0x68, 14, true);   //request 14 bytes of data starting from the indicated register. 6 for accelerometer, 2 for temp, 6 for gyro
+	Wire.beginTransmission(0x68);       //start a transmission with the gyro
+	Wire.write(0x3B);                   //begin with the ACCEL_XOUT_H register, the rest of the data registers begin there
+	Wire.endTransmission(false);        //nothing else to write, but leave the bus commumincation open (false) so the next command can be run
+	Wire.requestFrom(0x68, 14, true);   //request 14 bytes of data starting from the indicated register. 6 for accelerometer, 2 for temp, 6 for gyro
 
 //  acc_x = Wire.read() <<8| Wire.read();         //the data for each axis of the accelerometer or gyro is 2 bytes, one high byte and one low
 //  acc_y = Wire.read() <<8| Wire.read();         //the two must be added together to get the raw sensor value
@@ -58,20 +61,19 @@ void GyroAccel::getGyroValues(){
 //  gyro_y = Wire.read() <<8| Wire.read();
 //  gyro_z = Wire.read() <<8| Wire.read();
 
-  	values[0] = Wire.read();
-  	values[1] = Wire.read();
-  	values[2] = Wire.read();
-  	values[3] = Wire.read();
-  	values[4] = Wire.read();
-  	values[5] = Wire.read();
-  	temperature = Wire.read();
-  	values[6] = Wire.read();
-  	 values[7] = Wire.read();
-  	  	values[8] = Wire.read();
-  	  	values[9] = Wire.read();
-  	  	values[10] = Wire.read();
-  	  	values[11] = Wire.read();
-
+	values[0] = 	Wire.read();
+	values[1] = 	Wire.read();
+	values[2] = 	Wire.read();
+	values[3] = 	Wire.read();
+	values[4] = 	Wire.read();
+	values[5] = 	Wire.read();
+	temperature =	Wire.read();
+	values[6] = 	Wire.read();
+	values[7] = 	Wire.read();
+	values[8] = 	Wire.read();
+	values[9] = 	Wire.read();
+	values[10] = 	Wire.read();
+	values[11] = 	Wire.read();
 
 }
 
