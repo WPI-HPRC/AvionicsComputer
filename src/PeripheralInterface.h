@@ -7,10 +7,8 @@
 #define USLI20_PERIPHERAL_H
 class PeripheralInterface {
 public:
-    PeripheralInterface(){}
-//    virtual ~PeripheralInterface(){}
-    virtual void debug() = 0;
-    virtual void push(uint8_t* buf, uint8_t len) = 0;
-    virtual void pull(uint8_t* buf, uint8_t len) = 0;
+    virtual void enable() = 0;
+    virtual void disable() = 0;
+    virtual void update() = 0;
 };
-#endif //USLI20_PERIPHERAL_H
+#endif //SRC_PERIPHERAL_H
