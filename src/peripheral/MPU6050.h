@@ -33,13 +33,17 @@ private:
 	int16_t gyro_z = 0;
 
 public:
-    DataLogger(){}
-//    ~DataLogger(){}
-    void debug();
-    void push(uint8_t* buf, uint8_t len);
-    void pull(uint8_t* buf, uint8_t len);
+	void enable();
+	void disable();
+	void update();
+
+	int16_t getAcc_x();
+	int16_t getAcc_y();
+	int16_t getAcc_z();
+	int16_t getTemperature();
+	int16_t getGyro_x();
+	int16_t getGyro_y();
+	int16_t getGyro_z();
 };
-
-
 
 #endif /* SRC_PERIPHERAL_MPU6050_H_ */
