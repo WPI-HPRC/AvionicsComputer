@@ -20,6 +20,6 @@ void loop() {
 
 	myMPU.update();
 	Serial.println(myMPU.getAcc_z());
-	delay(1000);
+	delay(500);
 
 }
