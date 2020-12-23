@@ -33,6 +33,8 @@ private:
 	int16_t gyro_z = 0;
 
 public:
+	MPU6050();
+
 	void enable();
 	void disable();
 	void update();

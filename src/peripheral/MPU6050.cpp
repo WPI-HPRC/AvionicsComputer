@@ -7,6 +7,9 @@
 
 #include "MPU6050.h"
 
+//Constructor for this class MPU6050, should only be one instance from only one MPU6050 board per Arduino
+MPU6050::MPU6050(){}
+
 void MPU6050::enable(){
 	Wire.begin();
 
@@ -44,20 +47,6 @@ void MPU6050::update(){
 	this->gyro_x = Wire.read() <<8| Wire.read();
 	this->gyro_y = Wire.read() <<8| Wire.read();
 	this->gyro_z = Wire.read() <<8| Wire.read();
-
-	//  	values[0] = Wire.read();
-	//  	values[1] = Wire.read();
-	//  	values[2] = Wire.read();
-	//  	values[3] = Wire.read();
-	//  	values[4] = Wire.read();
-	//  	values[5] = Wire.read();
-	//  	temperature = Wire.read();
-	//  	values[6] = Wire.read();
-	//  	 values[7] = Wire.read();
-	//  	  	values[8] = Wire.read();
-	//  	  	values[9] = Wire.read();
-	//  	  	values[10] = Wire.read();
-	//  	  	values[11] = Wire.read();
 }
 
 int16_t MPU6050::getAcc_x(){		//Returns the current Acceleration value in the x direction in Gs.
