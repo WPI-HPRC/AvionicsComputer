@@ -36,7 +36,7 @@ void SystemManager::mainSetup(){
 	Serial.println(F("Serial debug connected"));
 
 	// TODO: #ifdef USE_PAYLOAD_ROBOT_SYSTEM
-//	looper->registerLoop(robotLoop); 	// robot system loop is registered first in order to be run first
+
 	robot->systemInit();				// initializing system object, registering all its subsystem loops
 
 
