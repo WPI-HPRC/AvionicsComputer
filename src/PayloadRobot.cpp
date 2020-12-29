@@ -23,6 +23,8 @@ void PayloadRobot::systemInit(){
 
 //TODO enable all sensors and register all subsystem loops
 
+	runningLooper->registerLoop(robotLoop);		// robot system loop is registered first in order to be run first
+
 	imu->gyroStart();
 	myRadio->init();
 

@@ -10,7 +10,7 @@
 
 #include "Arduino.h"
 #include "Wire.h"
-#include "../PeripheralInterface.h"
+#include "PeripheralInterface.h"
 
 #define MPU6050_ADDRESS 0x68		//Defines the gyro address.
 #define MPU6050_PWR_MGMT_1 0x6B		//Defines the register for power management.

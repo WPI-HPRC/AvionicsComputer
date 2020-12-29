@@ -25,7 +25,7 @@
  * STATE DETAILS
  */
 enum RobotState {
-//	TESTING, OnPad, Ascent, Coast, Descent,
+//	TESTING, OnPad, Launch, Coast, Descent,
 //	Landed, SelfRighting, Stabilizing, SendPhoto
 	TESTING,
 	Waiting,
@@ -71,6 +71,28 @@ public:
 
 	PayloadRobot(Looper * looper);
 	//	PayloadRobot(){}
+
+	/* Robot loop functionality */
+	class RobotLoop : public Loop {
+		PayloadRobot * robot_;
+
+	public:
+		RobotLoop(PayloadRobot * instance){
+			robot_ = instance;
+		};
+
+		void onStart(uint32_t timestamp){
+			robot_->beginStateMachine();
+		}
+		void onLoop(uint32_t timestamp){
+			robot_->updateStateMachine();
+
+		}
+		void onStop(uint32_t timestamp){
+			robot_->endStateMachine();
+		}
+	} * robotLoop = new RobotLoop(this);		// instantiate the main system loop and pass it the system instance
+
 
 
 	void systemInit();

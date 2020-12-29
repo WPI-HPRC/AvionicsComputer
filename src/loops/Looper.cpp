@@ -43,6 +43,7 @@ void Looper::startLoops(){
 
 		if(loopIndex != TOTAL_NUM_LOOPS){								// don't start unless all loops registered
 			Serial.println(F("!!! Not all Loops registered !!!"));
+			Serial.print(F("Loops registered: ")); Serial.println(loopIndex);
 			return;
 		}
 

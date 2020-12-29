@@ -52,27 +52,6 @@ public:
 
 	PayloadRobot * robot = new PayloadRobot(looper);	// looper is needed for registering all subsystem loops
 
-	/* Robot loop functionality */
-	class RobotLoop : public Loop {
-		PayloadRobot * robot_;
-
-	public:
-		RobotLoop(PayloadRobot * instance){
-			robot_ = instance;
-		};
-
-		void onStart(uint32_t timestamp){
-			robot_->beginStateMachine();
-		}
-		void onLoop(uint32_t timestamp){
-			robot_->updateStateMachine();
-
-		}
-		void onStop(uint32_t timestamp){
-			robot_->endStateMachine();
-		}
-	} * robotLoop = new RobotLoop(robot);				// instantiate the main system loop and pass it the system instance
-
 //#endif
 
 //	long runCount = 100000;	// debugging, stopping loops after this many mainLoop() iterations
