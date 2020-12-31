@@ -9,6 +9,9 @@
 
 #include "Arduino.h"
 
+#include <Wire.h>
+#include <SPI.h>
+
 #include "Constants.h"
 #include "src/loops/Looper.h"
 #include "src/loops/Loop.h"
@@ -42,7 +45,12 @@ public:
 	SystemManager();
 	//	~SystemManager(){}
 
-	const uint32_t baud = DEBUG_BAUD_RATE;		// baud rate for serial prints from the Teensy
+
+	const uint32_t i2c_freq = I2C_BUS_FREQUENCY; 	// frequency of the I2C bus for peripheral interfacing
+
+	const uint32_t spi_freq = SPI_SCK_FREQUENCY;	// frequency of the SPI SCK clock for peripheral interfacing
+
+	const uint32_t baud = DEBUG_BAUD_RATE;			// baud rate for serial prints from the Teensy
 
 
 //TODO:

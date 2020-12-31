@@ -32,7 +32,7 @@
 
 /* ROBOT CONSTANTS */
 
-#define PAYLOAD_ROBOT_NUM_LOOPS 1
+#define PAYLOAD_ROBOT_NUM_LOOPS 2
 
 // Electrical //
 
@@ -74,11 +74,22 @@
 
 
 
+/*
+ * COMM BUS CONSTANTS
+ */
+
+#define I2C_BUS_FREQUENCY 400000		// 400kHz(MPU6050 max)
+
+#define SPI_SCK_FREQUENCY 10000000		// 10MHz (LoRa max)
+
+
+
 /* DEBUG CONSTANTS */
 
 //TODO #define USE_DEBUG
 
-#define DEBUG_BAUD_RATE 115200	//2000000
+#define DEBUG_BAUD_RATE 115200
+//2000000
 
 
 

@@ -12,6 +12,7 @@
 
 #include "../peripheral/LoRaCustom.h"
 #include "../peripheral/GyroAccel.h"
+#include "../peripheral/MPU6050.h"
 
 
 /*
@@ -36,38 +37,55 @@ private:
 	DriveControlState driveControlState;
 
 
-//	GyroAccel * imu = new GyroAccel();		// sensor
-//	uint8_t imuData[12];
-//	LoRaComms * radio = new LoRaComms();
+	uint8_t imuData[12];
+//	GyroAccel * imu;
+	MPU6050 * imu;
+
+//	LoRaComms * radio;
 
 
 public:
 
-	DriveTrain();
+	DriveTrain(MPU6050 * imuSensor);
 	//	~DriveTrain(){}
 
 	/* Drivetrain loop functionality */
 	class DriveLoop : public Loop {
-		DriveTrain * driveTrain_;
+		DriveTrain * drive_;
 
 	public:
 		DriveLoop(DriveTrain * instance){
-			driveTrain_ = instance;
+			drive_ = instance;
 		};
 
 		void onStart(uint32_t timestamp){
 			//
+			Serial.println(F("START DRIVETRAIN LOOP"));
 		}
 		void onLoop(uint32_t timestamp){
 			//
 
+			drive_->imu->update();
+			//Serial.println(timestamp);
+			//driveTrain_->printOutput();
 
 		}
 		void onStop(uint32_t timestamp){
 			//
 		}
-	} * driveLoop = new DriveLoop(this);	// instantiate the DriveTrain subystem loop and pass it the instance
+	} * driveLoop = new DriveLoop(this);	// instantiate the DriveTrain subsystem loop and pass it the instance
 
+
+
+	void subsystemInit();
+
+//	double getHeading();
+	int16_t getHeading();
+
+
+	void zeroSensors();
+	void registerEnabledLoops(Looper * enabledLooper);
+	void printOutput();
 
 
 

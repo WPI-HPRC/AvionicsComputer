@@ -8,7 +8,6 @@
 #include "MPU6050.h"
 
 void MPU6050::enable(){
-	Wire.begin();
 
 	Wire.beginTransmission(MPU6050_ADDRESS);  		//Starts the transmission with the MPU6050.
 	Wire.write(MPU6050_PWR_MGMT_1);             	//register for power management
@@ -45,19 +44,6 @@ void MPU6050::update(){
 	this->gyro_y = Wire.read() <<8| Wire.read();
 	this->gyro_z = Wire.read() <<8| Wire.read();
 
-	//  	values[0] = Wire.read();
-	//  	values[1] = Wire.read();
-	//  	values[2] = Wire.read();
-	//  	values[3] = Wire.read();
-	//  	values[4] = Wire.read();
-	//  	values[5] = Wire.read();
-	//  	temperature = Wire.read();
-	//  	values[6] = Wire.read();
-	//  	 values[7] = Wire.read();
-	//  	  	values[8] = Wire.read();
-	//  	  	values[9] = Wire.read();
-	//  	  	values[10] = Wire.read();
-	//  	  	values[11] = Wire.read();
 }
 
 int16_t MPU6050::getAcc_x(){		//Returns the current Acceleration value in the x direction in Gs.
@@ -87,7 +73,4 @@ int16_t MPU6050::getGyro_y(){		//Returns the current Gyro orientation in the y d
 int16_t MPU6050::getGyro_z(){		//Returns the current Gyro orientation in the z direction in deg/s.
 	return this->gyro_z;
 }
-
-
-
 

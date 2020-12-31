@@ -59,7 +59,7 @@ void Looper::startLoops(){
 //		timestamp_ = now;
 
 		Serial.println(F("Loops started"));
-		Serial.print(F("Took ")); Serial.print((float)dt_ / 1000, 8); Serial.println(F(" millisec to start loops"));
+		Serial.print(F("Took ")); Serial.print((float)dt_ / 1000, 8); Serial.println(F(" ms to start loops"));
 		//printOutput();
 
 	}
@@ -122,7 +122,8 @@ void Looper::printOutput(){
 
 //	Serial.print(F("Looper timestamp: ")); Serial.println(timestamp_);
 //	Serial.print(F("Looper dt: ")); Serial.println(dt_);
-	Serial.print(F("Took ")); Serial.print((float)dt_ / 1000, 3); Serial.println(F(" millisec to run"));
+
+	Serial.print(F("Took ")); Serial.print((float)dt_ / 1000, 3); Serial.println(F(" ms to run"));
 	//Serial.print(F("Looper frequency: "));
 	Serial.print( 1 / ((float)dt_ / 1000000) ); Serial.println(F(" Hz"));
 

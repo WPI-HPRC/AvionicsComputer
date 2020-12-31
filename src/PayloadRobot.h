@@ -8,13 +8,13 @@
 #define SRC_PAYLOADROBOT_H_
 
 #include "Arduino.h"
-//#include "Wire.h"
 
 //#include "../Constants.h"
 #include "loops/Looper.h"
 #include "loops/loop.h"
 
 #include "subsystems/DriveTrain.h"
+
 //#include "peripheral/GyroAccel.h"
 //#include "peripheral/LoRaCustom.h"
 
@@ -47,24 +47,27 @@ private:
 	RobotState robotState;					// initial state is Landed
 
 
-//	DriveTrain driveTrain = new DriveTrain();
-	GyroAccel * imu = new GyroAccel();		// sensor
-	uint8_t imuData[12];
-	LoRaComms * myRadio = new LoRaComms();
+	MPU6050 * robotIMU = new MPU6050();
+
+//	LoRaComms * robotRadio = new LoRaComms();
+
+
+//	PIDMotor * leftMotor;			 	// motor driving left side robot tread
+//	PIDMotor * rightMotor;				// motor driving right side robot tread
+
+//	PIDMotor * selfRightingMotor1; 		// motor driving petal (3D print color?)
+//	PIDMotor * selfRightingMotor2; 		// motor driving petal (3D print color?)
+//	PIDMotor * selfRightingMotor3; 		// motor driving petal (3D print color?)
+
+
+//	DriveTrain * driveTrain = new DriveTrain(leftMotor, rightMotor, robotIMU);
+	DriveTrain * driveTrain = new DriveTrain(robotIMU);
 
 
 
-	//	PIDMotor leftMotor;			 	// motor driving left side robot tread
-	//	PIDMotor rightMotor;			// motor driving right side robot tread
 
 
-	//	PIDMotor selfRightingMotor1; 	// motor driving petal (3D print color?)
-	//	PIDMotor selfRightingMotor2; 	// motor driving petal (3D print color?)
-	//	PIDMotor selfRightingMotor3; 	// motor driving petal (3D print color?)
-
-
-
-	// timeout variable(s) for loop transition
+	// timeout variable(s) for loop transition ?
 
 
 public:

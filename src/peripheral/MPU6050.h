@@ -44,6 +44,7 @@ public:
 	int16_t getGyro_x();
 	int16_t getGyro_y();
 	int16_t getGyro_z();
+
 };
 
 #endif /* SRC_PERIPHERAL_MPU6050_H_ */

@@ -29,14 +29,21 @@ void SystemManager::mainSetup(){
 		return;
 	}
 
-	Serial.begin(baud);								// initialize USB port serial, gotta debug somehow
+
+	Wire.begin();									// initialize I2C bus
+	Wire.setClock(i2c_freq);						// set its frequency
+
+	SPI.begin();									// initialize SPI bus
+	// Test with setting higher freq SPI
+
 
 	// TODO: #ifdef USE_DEBUG_SERIAL
+	Serial.begin(baud);								// initialize USB port serial, gotta debug somehow
 	while(!Serial);									// loop until serial port is opened, stalls program
 	Serial.println(F("Serial debug connected"));
 
-	// TODO: #ifdef USE_PAYLOAD_ROBOT_SYSTEM
 
+	// TODO: #ifdef USE_PAYLOAD_ROBOT_SYSTEM
 	robot->systemInit();				// initializing system object, registering all its subsystem loops
 
 

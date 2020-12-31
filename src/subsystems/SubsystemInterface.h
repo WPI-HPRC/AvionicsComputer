@@ -23,14 +23,13 @@ public:
 //		virtual ~SubsystemInterface(){}
 
 
+	virtual void subsystemInit() = 0;
 
-	virtual void stop();
+	virtual void zeroSensors() = 0;
 
-	virtual void zeroSensors();
+	virtual void registerEnabledLoops(Looper * enabledLooper) = 0;
 
-	virtual void registerEnabledLoops(Looper enabledLooper);
-
-	virtual void debugOutput();
+	virtual void printOutput() = 0;
 
 
 };
