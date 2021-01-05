@@ -51,10 +51,7 @@ void MPU6050::update(){
 	this->gyro_x = Wire.read() <<8| Wire.read();
 	this->gyro_y = Wire.read() <<8| Wire.read();
 	this->gyro_z = Wire.read() <<8| Wire.read();
-<<<<<<< HEAD
-=======
 
->>>>>>> refs/heads/development
 }
 
 int16_t MPU6050::getAcc_x(){		//Returns the current Acceleration value in the x direction in Gs.

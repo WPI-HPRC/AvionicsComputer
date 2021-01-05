@@ -27,12 +27,6 @@ void setup() {
 // The loop routine runs over and over again forever:
 void loop() {
 
-<<<<<<< HEAD
-	myMPU.update();
-	Serial.println(myMPU.getAcc_z());
-	delay(1000);
-=======
 	sysMan->mainLoop();
->>>>>>> refs/heads/development
 
 }
