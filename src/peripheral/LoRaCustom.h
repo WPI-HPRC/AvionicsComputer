@@ -6,9 +6,9 @@
 #define _LoRaCustom_H_
 
 #include "Arduino.h"
+#include "PeripheralInterface.h"
 //#include <stdio.h>	// for memcpy function
 #include <SPI.h> 	// Use SPI for communicating with the LoRa radios
-#include "../PeripheralInterface.h"
 
 // Macro definitions
 

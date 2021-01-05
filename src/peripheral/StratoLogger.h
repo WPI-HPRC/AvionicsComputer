@@ -2,7 +2,7 @@
 #ifndef USLI_20_STRATOLOGGER_H
 #define USLI_20_STRATOLOGGER_H
 
-#include "../PeripheralInterface.h"
+#include "PeripheralInterface.h"
 
 #include <HardwareSerial.h>		// For debug mode printing
 #include <SoftwareSerial.h>		// For one-way comms with Strato

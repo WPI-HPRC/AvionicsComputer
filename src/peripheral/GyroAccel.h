@@ -1,11 +1,16 @@
-//
-// Created by james on 11/16/2019.
-//
+/*
+ * GyroAccel.h
+ *
+ * Interface structure for a peripheral
+ *
+ * Created on: Dec 19, 2020
+ * Author: PJDen
+ */
 
-#ifndef USLI_20_GYROACCEL_H
-#define USLI_20_GYROACCEL_H
+#ifndef SRC_PERIPHERAL_GYROACCEL_H
+#define SRC_PERIPHERAL_GYROACCEL_H
 
-#include "../PeripheralInterface.h"
+#include "PeripheralInterface.h"
 #include <Wire.h>
 
 class GyroAccel : public PeripheralInterface {
@@ -29,4 +34,4 @@ public:
 };
 
 
-#endif //USLI_20_GYROACCEL_H
+#endif //SRC_PERIPHERAL_GYROACCEL_H
