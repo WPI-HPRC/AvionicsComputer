@@ -7,9 +7,14 @@
 
 #include "MPU6050.h"
 
-//Constructor for this class MPU6050, should only be one instance from only one MPU6050 board per Arduino
+/*
+ * Constructor for this class MPU6050, should only be one instance from only one MPU6050 board per Arduino
+ */
 MPU6050::MPU6050(){}
 
+/*
+ *
+ */
 void MPU6050::enable(){
 	Wire.begin();
 
