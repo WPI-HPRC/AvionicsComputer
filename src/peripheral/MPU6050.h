@@ -28,12 +28,12 @@ private:
 	const float LSB = 65.5;			//Defines Least-significant Bit per deg/s for 500 deg/s sensitivity.
 	const uint16_t calibrationSamples = 2000;
 
-	float roll, pitch, yaw;
-	int32_t gyro_x_cal, gyro_y_cal, gyro_z_cal;
+	float roll, pitch, yaw = 0;
+	int32_t gyro_x_cal, gyro_y_cal, gyro_z_cal = 0;
 
-	int16_t acc_x, acc_y, acc_z;
+	int16_t acc_x, acc_y, acc_z = 0;
 	int16_t temperature = 0;
-	int16_t gyro_x, gyro_y, gyro_z;
+	int16_t gyro_x, gyro_y, gyro_z = 0;
 
 public:
 	MPU6050();
@@ -41,6 +41,7 @@ public:
 	void enable();
 	void disable();
 	void update();
+	void updateIMU();
 	void gyroCalibrate();
 
 	float getRoll();

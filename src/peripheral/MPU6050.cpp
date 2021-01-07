@@ -51,14 +51,15 @@ void MPU6050::update(){
 	this->gyro_x = Wire.read() <<8| Wire.read();
 	this->gyro_y = Wire.read() <<8| Wire.read();
 	this->gyro_z = Wire.read() <<8| Wire.read();
+}
+void MPU6050::updateIMU(){
+	gyro_x -= gyro_x_cal;							//Subtract the offset calibration value from the raw gyro_x value
+	gyro_y -= gyro_y_cal;							//Subtract the offset calibration value from the raw gyro_y value
+	gyro_z -= gyro_z_cal;							//Subtract the offset calibration value from the raw gyro_z value
 
-//	gyro_x += gyro_x_cal;							//Subtract the offset calibration value from the raw gyro_x value
-//	gyro_y += gyro_y_cal;							//Subtract the offset calibration value from the raw gyro_y value
-//	gyro_z += gyro_z_cal;							//Subtract the offset calibration value from the raw gyro_z value
-//
-//	//this->roll += gyro_x / LSB * dt;					//Integrates the angular rate of X axis over dt to return absolute position of X axis.
-//	//this->pitch += gyro_y / LSB * dt;					//Integrates the angular rate of Y axis over dt to return absolute position of Y axis.
-//	this->yaw += gyro_z / LSB * dt;					//Integrates the angular rate of Z axis over dt to return absolute position of Z axis.
+	this->roll += gyro_x / LSB * dt;				//Integrates the angular rate of X axis over dt to return absolute position of X axis.
+	this->pitch += gyro_y / LSB * dt;				//Integrates the angular rate of Y axis over dt to return absolute position of Y axis.
+	this->yaw += gyro_z / LSB * dt;					//Integrates the angular rate of Z axis over dt to return absolute position of Z axis.
 }
 
 /*
@@ -82,7 +83,9 @@ void MPU6050::gyroCalibrate() {
   gyro_y_cal /= calibrationSamples;
   gyro_z_cal /= calibrationSamples;
 
-  Serial.println(F("Done Calibrating!"));
+  Serial.println(gyro_z_cal); 				//Check to see if calibration was successfull. Value should be very close to 0.
+  delay(6000); 								//Delay to allow for previous println to be read.
+  Serial.println(F("Done Calibrating!"));	//Alerts that the Gyro has completed it's calibration routine.
 
 }
 
