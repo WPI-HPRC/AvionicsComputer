@@ -34,9 +34,9 @@ void DriveTrain::subsystemInit(){
  * Get the latest heading value of the drive train chassis
  * @return the latest heading in deg //TODO
  */
-int16_t DriveTrain::getHeading(){
+double DriveTrain::getHeading(){
 
-	return imu->getAcc_z();
+	return imu->getYaw();
 
 }
 
@@ -60,5 +60,5 @@ void DriveTrain::registerEnabledLoops(Looper * enabledLooper){
  * Print output of drive train
  */
 void DriveTrain::printOutput(){
-	Serial.println(imu->getAcc_z());
+	Serial.println(getHeading());
 }

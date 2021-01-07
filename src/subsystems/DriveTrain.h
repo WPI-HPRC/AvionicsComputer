@@ -61,6 +61,7 @@ public:
 		void onStart(uint32_t timestamp){
 			//
 			Serial.println(F("START DRIVETRAIN LOOP"));
+			//drive_->imu->gyroCalibrate();
 		}
 		void onLoop(uint32_t timestamp){
 			//
@@ -80,7 +81,7 @@ public:
 	void subsystemInit();
 
 //	double getHeading();
-	int16_t getHeading();
+	double getHeading();
 
 
 	void zeroSensors();

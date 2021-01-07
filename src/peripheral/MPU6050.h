@@ -11,6 +11,7 @@
 #include "Arduino.h"
 #include "Wire.h"
 #include "PeripheralInterface.h"
+#include "../../Constants.h"
 
 #define MPU6050_ADDRESS 0x68		//Defines the gyro address.
 #define MPU6050_PWR_MGMT_1 0x6B		//Defines the register for power management.
@@ -23,14 +24,16 @@
 
 class MPU6050 : public PeripheralInterface {
 private:
+	const float dt = DT_LOOPER;
+	const float LSB = 65.5;			//Defines Least-significant Bit per deg/s for 500 deg/s sensitivity.
+	const uint16_t calibrationSamples = 2000;
 
-	int16_t acc_x = 0;
-	int16_t acc_y = 0;
-	int16_t acc_z = 0;
+	float roll, pitch, yaw;
+	int32_t gyro_x_cal, gyro_y_cal, gyro_z_cal;
+
+	int16_t acc_x, acc_y, acc_z;
 	int16_t temperature = 0;
-	int16_t gyro_x = 0;
-	int16_t gyro_y = 0;
-	int16_t gyro_z = 0;
+	int16_t gyro_x, gyro_y, gyro_z;
 
 public:
 	MPU6050();
@@ -38,14 +41,19 @@ public:
 	void enable();
 	void disable();
 	void update();
+	void gyroCalibrate();
 
-	int16_t getAcc_x();
-	int16_t getAcc_y();
-	int16_t getAcc_z();
-	int16_t getTemperature();
-	int16_t getGyro_x();
-	int16_t getGyro_y();
-	int16_t getGyro_z();
+	float getRoll();
+	float getPitch();
+	float getYaw();
+
+	int16_t getRawAcc_x();
+	int16_t getRawAcc_y();
+	int16_t getRawAcc_z();
+	int16_t getRawTemperature();
+	int16_t getRawGyro_x();
+	int16_t getRawGyro_y();
+	int16_t getRawGyro_z();
 
 };
 
