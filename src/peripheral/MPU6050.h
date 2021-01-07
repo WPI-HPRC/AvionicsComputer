@@ -26,7 +26,10 @@ class MPU6050 : public PeripheralInterface {
 private:
 	const float dt = DT_LOOPER;
 	const float LSB = 65.5;			//Defines Least-significant Bit per deg/s for 500 deg/s sensitivity.
-	const uint16_t calibrationSamples = 2000;
+
+	uint16_t calibrationIndex = 0;  			//This is an index variable used to iterate the recalibrateGyro function.
+	const uint16_t calibrationSamples = 500;	//This is the total number of calibration samples to be taken per calibration routine.
+	int32_t gyro_x_reCal, gyro_y_reCal, gyro_z_reCal = 0;
 
 	float roll, pitch, yaw = 0;
 	int32_t gyro_x_cal, gyro_y_cal, gyro_z_cal = 0;
@@ -40,9 +43,10 @@ public:
 
 	void enable();
 	void disable();
+	void updateGyroValues();
 	void update();
-	void updateIMU();
-	void gyroCalibrate();
+	void gyroCalibrateOnce();
+	void recalibrateGyro();
 
 	float getRoll();
 	float getPitch();

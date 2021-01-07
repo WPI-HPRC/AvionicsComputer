@@ -38,7 +38,10 @@ void MPU6050::disable(){
 	//IM NOT SURE WHAT THIS IS SUPPOSED TO DO.
 }
 
-void MPU6050::update(){
+/*
+ *
+ */
+void MPU6050::updateGyroValues(){
 	Wire.beginTransmission(MPU6050_ADDRESS);       	//Starts the transmission with the MPU6050.
 	Wire.write(ACCEL_XOUT_H);                   	//Begins with the ACCEL_XOUT_H register, the rest of the data registers begin there.
 	Wire.endTransmission(false);        			//Leaves the transmition with the MPU6050 open.
@@ -52,7 +55,12 @@ void MPU6050::update(){
 	this->gyro_y = Wire.read() <<8| Wire.read();
 	this->gyro_z = Wire.read() <<8| Wire.read();
 }
-void MPU6050::updateIMU(){
+
+/*
+ *
+ */
+void MPU6050::update(){
+	updateGyroValues();
 	gyro_x -= gyro_x_cal;							//Subtract the offset calibration value from the raw gyro_x value
 	gyro_y -= gyro_y_cal;							//Subtract the offset calibration value from the raw gyro_y value
 	gyro_z -= gyro_z_cal;							//Subtract the offset calibration value from the raw gyro_z value
@@ -65,14 +73,14 @@ void MPU6050::updateIMU(){
 /*
  * Calibrates Gyro to remove biases from X, Y, and Z axes.
  */
-void MPU6050::gyroCalibrate() {
+void MPU6050::gyroCalibrateOnce() {
 
   Serial.println(F("Gyro calibrating, don't move it!!!"));
 
   for(int cal_int = 0; cal_int < calibrationSamples; cal_int++){
 	  if(cal_int % 125 == 0)
 		  Serial.print(".");
-	  update();
+	  updateGyroValues();
 	  gyro_x_cal += gyro_x;
 	  gyro_y_cal += gyro_y;
 	  gyro_z_cal += gyro_z;
@@ -84,9 +92,39 @@ void MPU6050::gyroCalibrate() {
   gyro_z_cal /= calibrationSamples;
 
   Serial.println(gyro_z_cal); 				//Check to see if calibration was successfull. Value should be very close to 0.
-  delay(6000); 								//Delay to allow for previous println to be read.
+  delay(2000); 								//Delay to allow for previous println to be read.
   Serial.println(F("Done Calibrating!"));	//Alerts that the Gyro has completed it's calibration routine.
+}
 
+/*
+ * This is an iterative function that adds an additional sample to a new calibration sample buffer but doesnt update the
+ * gyro cal values until samples have been taken.
+ */
+void MPU6050::recalibrateGyro() {
+
+	updateGyroValues();
+	gyro_x_reCal += gyro_x;
+	gyro_y_reCal += gyro_y;
+	gyro_z_reCal += gyro_z;
+
+	if(calibrationIndex >= calibrationSamples){
+
+		gyro_x_cal = gyro_x_reCal / calibrationSamples;
+		gyro_y_cal = gyro_y_reCal / calibrationSamples;
+		gyro_z_cal = gyro_z_reCal / calibrationSamples;
+
+		gyro_x_reCal = 0;
+		gyro_y_reCal = 0;
+		gyro_z_reCal = 0;
+
+		Serial.println(gyro_x_cal);
+		Serial.println(gyro_y_cal);
+		Serial.println(gyro_z_cal);
+
+		calibrationIndex = 0;
+	} else {
+		calibrationIndex++;
+	}
 }
 
 /*
