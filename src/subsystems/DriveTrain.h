@@ -65,11 +65,28 @@ public:
 		}
 		void onLoop(uint32_t timestamp){
 			//
-			drive_->imu->recalibrateGyro();
-			//drive_->imu->update();
+			//drive_->imu->recalibrateGyro();
 
-			//Serial.println(timestamp);
-			//driveTrain_->printOutput();
+			switch(drive_->driveControlState) {
+
+			case Idle:
+				drive_->idle();
+				return;
+			case OpenLoop:
+				return;
+			case DriveStraight:
+				return;
+			case TurnToHeading:
+				return;
+			case PathFollowing:
+				return;
+			default:
+				Serial.print("Unexpected control state: ");
+				Serial.println(drive_->driveControlState);
+				return;
+			}
+
+
 
 		}
 		void onStop(uint32_t timestamp){
@@ -84,7 +101,7 @@ public:
 //	double getHeading();
 	double getHeading();
 
-
+	void idle();
 	void zeroSensors();
 	void registerEnabledLoops(Looper * enabledLooper);
 	void printOutput();

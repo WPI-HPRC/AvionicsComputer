@@ -40,6 +40,14 @@ double DriveTrain::getHeading(){
 
 }
 
+/*
+ * Performs all actions needed during the Idle state
+ */
+void DriveTrain::idle() {
+	imu->recalibrateGyro();
+
+	// state = DriveStraight;
+}
 
 /*
  * Zero drive train
