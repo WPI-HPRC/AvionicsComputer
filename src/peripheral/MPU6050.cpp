@@ -103,6 +103,7 @@ void MPU6050::gyroCalibrateOnce() {
 void MPU6050::recalibrateGyro() {
 
 	updateGyroValues();
+
 	gyro_x_reCal += gyro_x;
 	gyro_y_reCal += gyro_y;
 	gyro_z_reCal += gyro_z;

@@ -46,7 +46,16 @@ double DriveTrain::getHeading(){
 void DriveTrain::idle() {
 	imu->recalibrateGyro();
 
-	// state = DriveStraight;
+	// if accel is too much, switch out of idle mode
+	// values of -30 -> 30 are just test values to ensure it exits the loop properly
+	if (imu->getRawAcc_y() > 30 || imu->getRawAcc_y() < -30){
+		driveControlState = DriveStraight;
+		//Serial.println(imu->getRawAcc_y());
+		Serial.println("Exiting idle, current heading: ");
+		Serial.println(getHeading());
+	}
+
+
 }
 
 /*
