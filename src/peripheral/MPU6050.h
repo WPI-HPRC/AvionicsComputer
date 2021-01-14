@@ -33,7 +33,9 @@ private:
 	const uint16_t calibrationSamples = 2000;	//This is the total number of calibration samples to be taken per calibration routine.
 	int32_t gyro_x_reCal, gyro_y_reCal, gyro_z_reCal = 0;
 
-	float roll, pitch, yaw = 0;
+	float roll = 0;
+	float pitch = 0;
+	float yaw = 0;
 	int32_t gyro_x_cal, gyro_y_cal, gyro_z_cal = 0;
 
 	float totalAccelVector = 0;
@@ -59,13 +61,13 @@ public:
 	float getPitch();
 	float getYaw();
 
-	float getAcc_x();
-	float getAcc_y();
-	float getAcc_z();
+	float getAccXg();
+	float getAccYg();
+	float getAccZg();
 	int16_t getRawTemperature();
-	int16_t getRawGyro_x();
-	int16_t getRawGyro_y();
-	int16_t getRawGyro_z();
+	int16_t getRawGyroX();
+	int16_t getRawGyroY();
+	int16_t getRawGyroZ();
 
 	float getTotalAccelVector();
 

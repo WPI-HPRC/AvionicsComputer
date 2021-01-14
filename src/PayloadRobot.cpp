@@ -60,7 +60,7 @@ void PayloadRobot::beginStateMachine(){
 void PayloadRobot::updateStateMachine(){
 
 
-	runningLooper->printOutput();//TODO Only for debug, func should be private, lazyyy
+	//runningLooper->printOutput();//TODO Only for debug, func should be private, lazyyy
 	//Serial.println(driveTrain->getHeading());
 	//Serial.println("hello");
 

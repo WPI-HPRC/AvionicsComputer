@@ -61,25 +61,26 @@ void MPU6050::updateGyroValues(){
  */
 void MPU6050::update(){
 	updateGyroValues();
-	gyro_x -= gyro_x_cal;							//Subtract the offset calibration value from the raw gyro_x value
-	gyro_y -= gyro_y_cal;							//Subtract the offset calibration value from the raw gyro_y value
-	gyro_z -= gyro_z_cal;							//Subtract the offset calibration value from the raw gyro_z value
 
-	this->roll += gyro_x / gyroLSB * dt;				//Integrates the angular rate of X axis over dt to return absolute position of X axis.
-	this->pitch += gyro_y / gyroLSB * dt;				//Integrates the angular rate of Y axis over dt to return absolute position of Y axis.
-	this->yaw += gyro_z / gyroLSB * dt;					//Integrates the angular rate of Z axis over dt to return absolute position of Z axis.
+	if(gyro_x_cal >= 0) gyro_x -= gyro_x_cal;	//Subtract the offset calibration value from the raw gyro_x value.
+	if(gyro_x_cal <= 0) gyro_x -= gyro_x_cal;
+	if(gyro_y_cal >= 0) gyro_y -= gyro_y_cal;	//Subtract the offset calibration value from the raw gyro_y value.
+	if(gyro_y_cal <= 0) gyro_y -= gyro_y_cal;
+	if(gyro_z_cal >= 0) gyro_z -= gyro_z_cal;	//Subtract the offset calibration value from the raw gyro_z value.
+	if(gyro_z_cal <= 0) gyro_z -= gyro_z_cal;
 
-	accXg = acc_x / accelLSB;
-	accYg = acc_y / accelLSB;
-	accZg = acc_z / accelLSB;
+	this->roll += gyro_x / gyroLSB * dt;	//Integrates the angular rate of X axis over dt to return absolute position of X axis.
+	this->pitch += gyro_y / gyroLSB * dt;	//Integrates the angular rate of Y axis over dt to return absolute position of Y axis.
+	this->yaw += gyro_z / gyroLSB * dt;		//Integrates the angular rate of Z axis over dt to return absolute position of Z axis.
 
-	totalAccelVector = sqrt((accXg*accXg)+(accYg*accYg)+(accZg*accZg));  	//Calculate the total accelerometer vector.
+	accXg = acc_x / accelLSB;	//Converts raw accelerometer values into g's by dividing by the least significant bit.
+	accYg = acc_y / accelLSB;	//Converts raw accelerometer values into g's by dividing by the least significant bit.
+	accZg = acc_z / accelLSB;	//Converts raw accelerometer values into g's by dividing by the least significant bit.
 
-	anglePitchAccel = asin((float)accYg/totalAccelVector) * degToRad;       //Calculate the pitch angle.
-	angleRollAccel = asin((float)accXg/totalAccelVector) * -degToRad;       //Calculate the roll angle.
-//	Serial.print(angleRollAccel);
-//	Serial.print(F(", "));
-//	Serial.println(roll);
+	totalAccelVector = sqrt((accXg*accXg)+(accYg*accYg)+(accZg*accZg));  	//Calculates the total accelerometer vector.
+
+	anglePitchAccel = asin((float)accYg/totalAccelVector) * degToRad;       //Calculates the pitch angle.
+	angleRollAccel = asin((float)accXg/totalAccelVector) * -degToRad;       //Calculates the roll angle.
 }
 
 /*
@@ -107,7 +108,8 @@ void MPU6050::gyroCalibrateOnce() {
   Serial.println(gyro_y_cal); 				//Check to see if calibration was successfull. Value should be very close to 0.
   Serial.println(gyro_z_cal); 				//Check to see if calibration was successfull. Value should be very close to 0.
 
-  delay(2000); 								//Delay to allow for previous println to be read.
+  delay(2000); 	//DELETE WHEN DONE!!! Delay to allow for previous prints to be read. DELETE WHEN DONE!!!
+
   Serial.println(F("Done Calibrating!"));	//Alerts that the Gyro has completed it's calibration routine.
 }
 
@@ -167,21 +169,21 @@ float MPU6050::getYaw(){
 /*
  * Returns the current Acceleration value in the x direction in Gs.
  */
-float MPU6050::getAcc_x(){
+float MPU6050::getAccXg(){
 	return this->accXg;
 }
 
 /*
  * Returns the current Acceleration value in the y direction in Gs.
  */
-float MPU6050::getAcc_y(){
+float MPU6050::getAccYg(){
 	return this->accYg;
 }
 
 /*
  * Returns the current Acceleration value in the z direction in Gs.
  */
-float MPU6050::getAcc_z(){
+float MPU6050::getAccZg(){
 	return this->accZg;
 }
 
@@ -195,21 +197,21 @@ int16_t MPU6050::getRawTemperature(){
 /*
  * Returns the current Gyro orientation in the x direction in deg/s.
  */
-int16_t MPU6050::getRawGyro_x(){
+int16_t MPU6050::getRawGyroX(){
 	return this->gyro_x;
 }
 
 /*
  * Returns the current Gyro orientation in the y direction in deg/s.
  */
-int16_t MPU6050::getRawGyro_y(){
+int16_t MPU6050::getRawGyroY(){
 	return this->gyro_y;
 }
 
 /*
  * Returns the current Gyro orientation in the z direction in deg/s.
  */
-int16_t MPU6050::getRawGyro_z(){
+int16_t MPU6050::getRawGyroZ(){
 	return this->gyro_z;
 }
 

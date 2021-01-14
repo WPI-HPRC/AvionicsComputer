@@ -48,7 +48,7 @@ void DriveTrain::idle() {
 
 	// if accel is too much, switch out of idle mode
 	// values of -30 -> 30 are just test values to ensure it exits the loop properly
-	if (imu->getAcc_y() > 30 || imu->getAcc_y() < -30){
+	if (imu->getAccYg() > 30 || imu->getAccYg() < -30){
 		driveControlState = DriveStraight;
 		//Serial.println(imu->getRawAcc_y());
 		Serial.println("Exiting idle, current heading: ");

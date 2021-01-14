@@ -71,7 +71,7 @@ public:
 
 			case Idle:
 				drive_->imu->update();
-				Serial.println(drive_->imu->getRawGyro_z());
+				Serial.println(drive_->imu->getPitch());
 				//Serial.print("Acceleration in the down direction: ");
 				//Serial.println(drive_->imu->getTotalAccelVector());
 				//drive_->idle();
