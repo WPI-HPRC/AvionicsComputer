@@ -65,9 +65,21 @@ void MPU6050::update(){
 	gyro_y -= gyro_y_cal;							//Subtract the offset calibration value from the raw gyro_y value
 	gyro_z -= gyro_z_cal;							//Subtract the offset calibration value from the raw gyro_z value
 
-	this->roll += gyro_x / LSB * dt;				//Integrates the angular rate of X axis over dt to return absolute position of X axis.
-	this->pitch += gyro_y / LSB * dt;				//Integrates the angular rate of Y axis over dt to return absolute position of Y axis.
-	this->yaw += gyro_z / LSB * dt;					//Integrates the angular rate of Z axis over dt to return absolute position of Z axis.
+	this->roll += gyro_x / gyroLSB * dt;				//Integrates the angular rate of X axis over dt to return absolute position of X axis.
+	this->pitch += gyro_y / gyroLSB * dt;				//Integrates the angular rate of Y axis over dt to return absolute position of Y axis.
+	this->yaw += gyro_z / gyroLSB * dt;					//Integrates the angular rate of Z axis over dt to return absolute position of Z axis.
+
+	accXg = acc_x / accelLSB;
+	accYg = acc_y / accelLSB;
+	accZg = acc_z / accelLSB;
+
+	totalAccelVector = sqrt((accXg*accXg)+(accYg*accYg)+(accZg*accZg));  	//Calculate the total accelerometer vector.
+
+	anglePitchAccel = asin((float)accYg/totalAccelVector) * degToRad;       //Calculate the pitch angle.
+	angleRollAccel = asin((float)accXg/totalAccelVector) * -degToRad;       //Calculate the roll angle.
+//	Serial.print(angleRollAccel);
+//	Serial.print(F(", "));
+//	Serial.println(roll);
 }
 
 /*
@@ -91,7 +103,10 @@ void MPU6050::gyroCalibrateOnce() {
   gyro_y_cal /= calibrationSamples;
   gyro_z_cal /= calibrationSamples;
 
+  Serial.println(gyro_x_cal); 				//Check to see if calibration was successfull. Value should be very close to 0.
+  Serial.println(gyro_y_cal); 				//Check to see if calibration was successfull. Value should be very close to 0.
   Serial.println(gyro_z_cal); 				//Check to see if calibration was successfull. Value should be very close to 0.
+
   delay(2000); 								//Delay to allow for previous println to be read.
   Serial.println(F("Done Calibrating!"));	//Alerts that the Gyro has completed it's calibration routine.
 }
@@ -131,16 +146,16 @@ void MPU6050::recalibrateGyro() {
 /*
  * Returns the current Roll which is the absolute position of the X axis.
  */
-//float MPU6050::getRoll(){
-//	return this->roll;
-//}
+float MPU6050::getRoll(){
+	return this->roll;
+}
 
 /*
  * Returns the current Pitch which is the absolute position of the Y axis.
  */
-//float MPU6050::getPitch(){
-//	return this->pitch;
-//}
+float MPU6050::getPitch(){
+	return this->pitch;
+}
 
 /*
  * Returns the current Yaw which is the absolute position of the Z axis.
@@ -152,22 +167,22 @@ float MPU6050::getYaw(){
 /*
  * Returns the current Acceleration value in the x direction in Gs.
  */
-int16_t MPU6050::getRawAcc_x(){
-	return this->acc_x;
+float MPU6050::getAcc_x(){
+	return this->accXg;
 }
 
 /*
  * Returns the current Acceleration value in the y direction in Gs.
  */
-int16_t MPU6050::getRawAcc_y(){
-	return this->acc_y;
+float MPU6050::getAcc_y(){
+	return this->accYg;
 }
 
 /*
  * Returns the current Acceleration value in the z direction in Gs.
  */
-int16_t MPU6050::getRawAcc_z(){
-	return this->acc_z;
+float MPU6050::getAcc_z(){
+	return this->accZg;
 }
 
 /*
@@ -196,5 +211,12 @@ int16_t MPU6050::getRawGyro_y(){
  */
 int16_t MPU6050::getRawGyro_z(){
 	return this->gyro_z;
+}
+
+/*
+ * Returns the total Acceleration Vector Raw value.
+ */
+float MPU6050::getTotalAccelVector(){
+	return this->totalAccelVector;
 }
 

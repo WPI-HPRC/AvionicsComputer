@@ -70,7 +70,11 @@ public:
 			switch(drive_->driveControlState) {
 
 			case Idle:
-				drive_->idle();
+				drive_->imu->update();
+				Serial.println(drive_->imu->getRawGyro_z());
+				//Serial.print("Acceleration in the down direction: ");
+				//Serial.println(drive_->imu->getTotalAccelVector());
+				//drive_->idle();
 				return;
 			case OpenLoop:
 				return;
