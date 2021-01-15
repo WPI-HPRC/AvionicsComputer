@@ -27,7 +27,9 @@ void PayloadRobot::systemInit(){
 
 
 //	robotRadio->init();
-
+	if(!baro->initBaro()){
+		Serial.println("baro not found");
+	}
 	driveTrain->subsystemInit();
 
 //	etc.
@@ -61,9 +63,11 @@ void PayloadRobot::updateStateMachine(){
 
 
 	runningLooper->printOutput();//TODO Only for debug, func should be private, lazyyy
-	Serial.println(driveTrain->getHeading());
+	//Serial.println(driveTrain->getHeading());
 
-
+	baro->update();
+	Serial.println(baro->getPressure());
+	Serial.println(baro->getAltitude());
 
 
 
