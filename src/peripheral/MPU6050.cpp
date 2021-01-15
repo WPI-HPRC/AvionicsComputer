@@ -146,14 +146,18 @@ void MPU6050::recalibrateGyro() {
  * An iterative function that filters the roll and pitch for every time the data updates
  */
 void MPU6050::complementaryFilter() {
+	filteredRoll += gyro_x / gyroLSB * dt;	//Integrates the angular rate of X axis over dt to return absolute position of X axis.
+	filteredPitch += gyro_y / gyroLSB * dt;	//Integrates the angular rate of Y axis over dt to return absolute position of Y axis.
+
+
 	totalAccelVector = sqrt((accXg*accXg)+(accYg*accYg)+(accZg*accZg));  	//Calculates the total accelerometer vector.
 
 	anglePitchAccel = asin((float)accYg/totalAccelVector) * degToRad;       //Calculates the pitch angle.
 	angleRollAccel = asin((float)accXg/totalAccelVector) * -degToRad;       //Calculates the roll angle.
 
 	if (totalAccelVector < 2) {
-		filteredPitch = pitch * 0.98 + anglePitchAccel * 0.02;
-		filteredRoll = roll * 0.98 + angleRollAccel * 0.02;
+		filteredPitch = filteredPitch * 0.98 + anglePitchAccel * 0.02;
+		filteredRoll = filteredRoll * 0.98 + angleRollAccel * 0.02;
 	}
 
 	//Serial.println("Filtered values: ");

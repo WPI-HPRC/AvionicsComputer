@@ -40,7 +40,7 @@ void SystemManager::mainSetup(){
 	// TODO: #ifdef USE_DEBUG_SERIAL
 	Serial.begin(baud);								// initialize USB port serial, gotta debug somehow
 	while(!Serial);									// loop until serial port is opened, stalls program
-	Serial.println(F("Serial debug connected"));
+	//Serial.println(F("Serial debug connected"));
 
 
 	// TODO: #ifdef USE_PAYLOAD_ROBOT_SYSTEM
