@@ -43,6 +43,7 @@ private:
 	float accXg, accYg, accZg = 0;
 	float anglePitchAccel, angleRollAccel = 0;
 
+	float filteredPitch, filteredRoll = 0;
 
 	int16_t temperature = 0;
 	int16_t gyro_x, gyro_y, gyro_z = 0;
@@ -56,6 +57,7 @@ public:
 	void update();
 	void gyroCalibrateOnce();
 	void recalibrateGyro();
+	void complementaryFilter();
 
 	float getRoll();
 	float getPitch();
@@ -70,6 +72,9 @@ public:
 	int16_t getRawGyroZ();
 
 	float getTotalAccelVector();
+
+	float getFilteredPitch();
+	float getFilteredRoll();
 
 };
 

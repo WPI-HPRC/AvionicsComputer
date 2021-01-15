@@ -77,10 +77,7 @@ void MPU6050::update(){
 	accYg = acc_y / accelLSB;	//Converts raw accelerometer values into g's by dividing by the least significant bit.
 	accZg = acc_z / accelLSB;	//Converts raw accelerometer values into g's by dividing by the least significant bit.
 
-	totalAccelVector = sqrt((accXg*accXg)+(accYg*accYg)+(accZg*accZg));  	//Calculates the total accelerometer vector.
-
-	anglePitchAccel = asin((float)accYg/totalAccelVector) * degToRad;       //Calculates the pitch angle.
-	angleRollAccel = asin((float)accXg/totalAccelVector) * -degToRad;       //Calculates the roll angle.
+	complementaryFilter();
 }
 
 /*
@@ -143,6 +140,27 @@ void MPU6050::recalibrateGyro() {
 	} else {
 		calibrationIndex++;
 	}
+}
+
+/*
+ * An iterative function that filters the roll and pitch for every time the data updates
+ */
+void MPU6050::complementaryFilter() {
+	totalAccelVector = sqrt((accXg*accXg)+(accYg*accYg)+(accZg*accZg));  	//Calculates the total accelerometer vector.
+
+	anglePitchAccel = asin((float)accYg/totalAccelVector) * degToRad;       //Calculates the pitch angle.
+	angleRollAccel = asin((float)accXg/totalAccelVector) * -degToRad;       //Calculates the roll angle.
+
+	if (totalAccelVector < 2) {
+		filteredPitch = pitch * 0.98 + anglePitchAccel * 0.02;
+		filteredRoll = roll * 0.98 + angleRollAccel * 0.02;
+	}
+
+	//Serial.println("Filtered values: ");
+	//Serial.println(filteredPitch);
+	//Serial.println(filteredRoll);
+
+
 }
 
 /*
@@ -220,5 +238,19 @@ int16_t MPU6050::getRawGyroZ(){
  */
 float MPU6050::getTotalAccelVector(){
 	return this->totalAccelVector;
+}
+
+/*
+ * Returns the pitch calculated using the complementary filter
+ */
+float MPU6050::getFilteredPitch() {
+	return this->filteredPitch;
+}
+
+/*
+ * Returns the roll calculated using the complementary filter
+ */
+float MPU6050::getFilteredRoll() {
+	return this->filteredRoll;
 }
 

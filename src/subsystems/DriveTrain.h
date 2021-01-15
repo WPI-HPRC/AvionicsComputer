@@ -65,13 +65,12 @@ public:
 		}
 		void onLoop(uint32_t timestamp){
 			//
-			//drive_->imu->recalibrateGyro();
+			drive_->imu->recalibrateGyro();
 
 			switch(drive_->driveControlState) {
 
 			case Idle:
 				drive_->imu->update();
-				Serial.println(drive_->imu->getPitch());
 				//Serial.print("Acceleration in the down direction: ");
 				//Serial.println(drive_->imu->getTotalAccelVector());
 				//drive_->idle();
