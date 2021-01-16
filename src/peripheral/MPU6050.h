@@ -31,22 +31,36 @@ private:
 
 	uint16_t calibrationIndex = 0;  			//This is an index variable used to iterate the recalibrateGyro function.
 	const uint16_t calibrationSamples = 2000;	//This is the total number of calibration samples to be taken per calibration routine.
-	int32_t gyro_x_reCal, gyro_y_reCal, gyro_z_reCal = 0;
+
+	int32_t gyro_x_reCal = 0;
+	int32_t gyro_y_reCal = 0;
+	int32_t gyro_z_reCal = 0;
 
 	float roll = 0;
 	float pitch = 0;
 	float yaw = 0;
-	int32_t gyro_x_cal, gyro_y_cal, gyro_z_cal = 0;
+
+	int32_t gyro_x_cal = 0;
+	int32_t gyro_y_cal = 0;
+	int32_t gyro_z_cal = 0;
 
 	float totalAccelVector = 0;
-	int16_t acc_x, acc_y, acc_z = 0;
-	float accXg, accYg, accZg = 0;
-	float anglePitchAccel, angleRollAccel = 0;
+	int16_t acc_x = 0;
+	int16_t acc_y = 0;
+	int16_t acc_z = 0;
+	float accXg = 0;
+	float accYg = 0;
+	float accZg = 0;
+	float anglePitchAccel = 0 ;
+	float angleRollAccel = 0;
 
-	float filteredPitch, filteredRoll = 0;
+	float filteredPitch = 0;
+	float filteredRoll = 0;
 
 	int16_t temperature = 0;
-	int16_t gyro_x, gyro_y, gyro_z = 0;
+	int16_t gyro_x = 0;
+	int16_t gyro_y = 0;
+	int16_t gyro_z = 0;
 
 public:
 	MPU6050();

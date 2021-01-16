@@ -160,8 +160,13 @@ void MPU6050::complementaryFilter() {
 		filteredRoll = filteredRoll * 0.98 + angleRollAccel * 0.02;
 	}
 
+
+	// TODO prints for debugging, remove when done !
+
 	//Serial.println("Filtered values: ");
-	//Serial.println(filteredPitch);
+	Serial.print(roll); Serial.print(", ");
+	Serial.print(angleRollAccel); Serial.print(", ");
+	Serial.println(filteredRoll);
 	//Serial.println(filteredRoll);
 
 

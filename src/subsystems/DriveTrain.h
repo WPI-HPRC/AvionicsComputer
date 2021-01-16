@@ -70,6 +70,7 @@ public:
 			switch(drive_->driveControlState) {
 
 			case Idle:
+
 				drive_->imu->update();
 
 				//drive_->idle();
