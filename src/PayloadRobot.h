@@ -13,6 +13,8 @@
 #include "loops/Looper.h"
 #include "loops/loop.h"
 
+#include "peripheral/NEOM9.h"
+
 #include "subsystems/DriveTrain.h"
 
 //#include "peripheral/GyroAccel.h"
@@ -50,7 +52,7 @@ private:
 	MPU6050 * robotIMU = new MPU6050();
 
 //	LoRaComms * robotRadio = new LoRaComms();
-
+	NEOM9 * robotGPS = new NEOM9();
 
 //	PIDMotor * leftMotor;			 	// motor driving left side robot tread
 //	PIDMotor * rightMotor;				// motor driving right side robot tread

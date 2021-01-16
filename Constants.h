@@ -57,7 +57,7 @@
 /* LOOPER CONSTANTS */
 
 // Set to zero for loop as fast as possible
-#define DT_LOOPER 0//0.01							// seconds, 10 milliseconds or 100 Hz
+#define DT_LOOPER 0.01							// seconds, 10 milliseconds or 100 Hz
 
 // Total required loops list space allocated to be run by Looper, different depending on the system running
 #ifdef USE_PAYLOAD_ROBOT_SYSTEM
