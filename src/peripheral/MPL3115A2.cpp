@@ -4,8 +4,17 @@
 
 Baro_mpl3115A2::Baro_mpl3115A2(){
     this->pressure = 0;
-    this->alt = 0;
+    this->altitude = 0;
+    this-> maxAltitudeReading = 0;
+    this-> zeroAltitude = 0;
+    this->reachedApogee = false;
+    this->hasLaunched = false;
 }
+
+/*
+ * Function for initializing the barometer
+ * @return true if barometer was found on I2C bus
+ */
 boolean Baro_mpl3115A2::initBaro() {
     uint8_t whoami;// = read8(MPL3115A2_WHOAMI);
     Wire.beginTransmission(MPL3115A2_ADDRESS);//Beginning transmission with barometer
@@ -16,13 +25,17 @@ boolean Baro_mpl3115A2::initBaro() {
     return whoami == 0xC4;
 }
 void Baro_mpl3115A2::enable(){
+	initBaro();
 
 }
 void Baro_mpl3115A2::disable(){
 
 }
 
-//returns pressure in Pa
+/*
+ * Function for reading the current pressure
+ * @return pressure in Pascals
+ */
 float Baro_mpl3115A2::readPressure() {
 
     Wire.beginTransmission(MPL3115A2_ADDRESS);//Beginning transmission with barometer
@@ -45,6 +58,10 @@ float Baro_mpl3115A2::readPressure() {
     return reading / 4.0;
 }
 
+/*
+ * Function for reading the current altitude
+ * @return altitude in meters
+ */
 float Baro_mpl3115A2::readAltitude() {
 
     Wire.beginTransmission(MPL3115A2_ADDRESS);//Beginning transmission with barometer
@@ -67,20 +84,68 @@ float Baro_mpl3115A2::readAltitude() {
     return reading / 65536.0;
 }
 
+/*
+ * Function for setting the zero altitude
+ * @return void
+ */
+void Baro_mpl3115A2::setZeroAltitude(){
+	this->zeroAltitude = this->readAltitude();
+}
+
+/*
+ * Function for updating the altitude and pressure readings
+ * also checks for launch and apogee
+ * @return void
+ */
 void Baro_mpl3115A2::update() {
     this->pressure = readPressure();
-    this->alt = readAltitude();
+    this->altitude = readAltitude();
+
+    if(this->altitude > this->maxAltitudeReading){
+       	this->maxAltitudeReading = this->altitude;//sets maximum altitude if current is greater than max
+    }
+
+    if(!this->reachedApogee){
+    this->reachedApogee = checkApogee();//checks for apogee if it hasnt been reached yet
+    }
+
+    if(!this->hasLaunched){
+        this->hasLaunched = checkLaunched();//checks for launch if it hasnt happened yet
+    }
+
+
+
 }
+
+/*
+ * Function for checking if apogee has been reached
+ * @return true if current alt is significantly less than maximum alt
+ */
+bool Baro_mpl3115A2::checkApogee(){
+	return (this->altitude < this->maxAltitudeReading - 5);
+}
+
+/*
+ * Function for checking if rocket has launched
+ * @return true if alt is greater than 5m
+ */
+bool Baro_mpl3115A2::checkLaunched(){
+	return  getAltitude() > 5;
+}
+
 
 float Baro_mpl3115A2::getPressure() {
     return this->pressure;
 }
 float Baro_mpl3115A2::getAltitude() {
-    return this->alt;
+    return this->altitude - this->zeroAltitude;
 }
 
 
 
+
+
+/*
 uint8_t Baro_mpl3115A2::read8(uint8_t address) {
     Wire.beginTransmission(MPL3115A2_ADDRESS);//Beginning transmission with barometer
     Wire.write(address);//Accessing input register of barometer
@@ -88,5 +153,5 @@ uint8_t Baro_mpl3115A2::read8(uint8_t address) {
     Wire.requestFrom(MPL3115A2_ADDRESS, 1, false);//Request one byte from barometer
     return Wire.read();//return read byte
 }
-
+*/
 

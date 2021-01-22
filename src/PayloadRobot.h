@@ -88,6 +88,9 @@ public:
 
 		void onStart(uint32_t timestamp){
 			robot_->beginStateMachine();
+
+			//robot_->baro->setZeroAltitude();
+
 		}
 		void onLoop(uint32_t timestamp){
 			robot_->updateStateMachine();

@@ -30,6 +30,7 @@ void PayloadRobot::systemInit(){
 	if(!baro->initBaro()){
 		Serial.println("baro not found");
 	}
+	baro->setZeroAltitude();
 	driveTrain->subsystemInit();
 
 //	etc.
@@ -66,9 +67,14 @@ void PayloadRobot::updateStateMachine(){
 	//Serial.println(driveTrain->getHeading());
 
 	baro->update();
-	Serial.println(baro->getPressure());
-	Serial.println(baro->getAltitude());
-
+	Serial.print("pressure: ");
+	Serial.println(baro->getPressure() );
+	Serial.print("Altitude: ");
+	Serial.println(baro->getAltitude() );
+	//Serial.print("launched?: ");
+	//Serial.println(baro->hasLaunched );
+	//Serial.print("apogee?: ");
+	//Serial.println(baro->reachedApogee );
 
 
 

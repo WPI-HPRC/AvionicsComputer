@@ -16,19 +16,26 @@ class Baro_mpl3115A2 : public PeripheralInterface {
 
 private:
     float pressure;
-    float alt;
+    float altitude;
+    float maxAltitudeReading;
+    float zeroAltitude;
     float readPressure();
     float readAltitude();
+    bool checkLaunched();
+    bool checkApogee();
     uint8_t read8(uint8_t address);
 
 public:
     Baro_mpl3115A2();
     boolean initBaro();
+    void setZeroAltitude();
     void enable();
     void update();
     void disable();
     float getPressure();
     float getAltitude();
+    bool hasLaunched;
+    bool reachedApogee;
 };
 
 #endif
