@@ -28,7 +28,7 @@ void PayloadRobot::systemInit(){
 
 //	robotRadio->init();
 
-	Serial.println(robotGPS->initGPS());
+	robotGPS->enable();
 
 	driveTrain->subsystemInit();
 
@@ -65,9 +65,22 @@ void PayloadRobot::updateStateMachine(){
 //	runningLooper->printOutput();//TODO Only for debug, func should be private, lazyyy
 //	Serial.println("Hello");
 
-	robotGPS->update();
+	long latitude = robotGPS->getLatitude();
+	    Serial.print(F(" Lat: "));
+	    Serial.print(latitude);
+	    Serial.println(F(" (degrees * 10^-7)"));
 
+	  long longitude = robotGPS->getLongitude();
+	    Serial.print(F(" Long: "));
+	    Serial.print(longitude);
+	    Serial.println(F(" (degrees * 10^-7)"));
 
+	  long altitude = robotGPS->getAltitude();
+	    Serial.print(F(" Alt: "));
+	    Serial.print(altitude);
+	    Serial.println(F(" (mm)"));
+
+	  delay(500);
 
 
 }
