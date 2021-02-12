@@ -22,9 +22,82 @@ void W25Q128::update()
  * Note, this function will block code execution if the chip
  * is not ready to be accessed.
  */
-void W25Q128::writePacket(char *buffer)
+void W25Q128::writeAvionicsPacket(char *buffer, struct avionicsPacket packet)
 {
 	while(!ready());
+	data32 dat;
+	strncpy(buffer, packet.id, 3);
+	int index = 3;
+	buffer[index++] = packet.version;
+	dat.i = packet.timeStamp;
+	this->write32(buffer, index, dat);
+	index += 4;
+	dat.f = packet.altitude;
+	this->write32(buffer, index, dat);
+	index += 4;
+	dat.f = packet.linearAcc[0];
+	this->write32(buffer, index, dat);
+	index += 4;
+	dat.f = packet.linearAcc[1];
+	this->write32(buffer, index, dat);
+	index += 4;
+	dat.f = packet.linearAcc[2];
+	this->write32(buffer, index, dat);
+	index += 4;
+	dat.f = packet.rotationalAcc[0];
+	this->write32(buffer, index, dat);
+	index += 4;
+	dat.f = packet.rotationalAcc[1];
+	this->write32(buffer, index, dat);
+	index += 4;
+	dat.f = packet.rotationalAcc[2];
+	this->write32(buffer, index, dat);
+	index += 4;
+	dat.f = packet.magneticField[0];
+	this->write32(buffer, index, dat);
+	index += 4;
+	dat.f = packet.magneticField[1];
+	this->write32(buffer, index, dat);
+	index += 4;
+	dat.f = packet.magneticField[2];
+	this->write32(buffer, index, dat);
+	index += 4;
+
+
+	dat.f = packet.relativePosition[0];
+	this->write32(buffer, index, dat);
+	index += 4;
+	dat.f = packet.relativePosition[1];
+	this->write32(buffer, index, dat);
+	index += 4;
+	dat.f = packet.relativePosition[2];
+	this->write32(buffer, index, dat);
+	index += 4;
+	dat.f = packet.velocity[0];
+	this->write32(buffer, index, dat);
+	index += 4;
+	dat.f = packet.velocity[1];
+	this->write32(buffer, index, dat);
+	index += 4;
+	dat.f = packet.velocity[2];
+	this->write32(buffer, index, dat);
+	index += 4;
+	dat.f = packet.attitude[0];
+	this->write32(buffer, index, dat);
+	index += 4;
+	dat.f = packet.attitude[1];
+	this->write32(buffer, index, dat);
+	index += 4;
+	dat.f = packet.attitude[2];
+	this->write32(buffer, index, dat);
+	index += 4;
+	dat.f = packet.attitude[3];
+	this->write32(buffer, index, dat);
+	index += 4;
+
+	dat.f = packet.servoAngle;
+	this->write32(buffer, index, dat);
+	index += 4;
 }
 
 /**
@@ -32,7 +105,7 @@ void W25Q128::writePacket(char *buffer)
  * Note, this function will block code execution if the chip
  * is not ready to be accessed.
  */
-struct avionicsPacket W25Q128::readPacket(char *buffer)
+struct avionicsPacket W25Q128::readAvionicsPacket(char *buffer)
 {
 	union avionicsPacket packet;
 	return packet;

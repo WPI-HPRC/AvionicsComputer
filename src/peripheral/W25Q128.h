@@ -34,7 +34,7 @@ typedef struct avionicsPacket {
 	// Estimated State
 	float relativePosition[3] = {NAN, NAN, NAN};	// Position relative to launch pad.
 	float velocity[3] = {NAN, NAN, NAN};
-	float attitude[4] = {NAN, NAN, NAN};			// Attitude quaternion.
+	float attitude[4] = {NAN, NAN, NAN, NAN};		// Attitude quaternion.
 
 	// Other Telemetry
 	float servoAngle = NAN;
@@ -47,8 +47,8 @@ public:
 	void disable();
 	void update();
 
-	void writePacket(char *buffer);
-	struct avionicsPacket readPacket(char *buffer);
+	void writeAvionicsPacket(char *buffer, struct avionicsPacket packet);
+	struct avionicsPacket readAvionicsPacket(char *buffer);
 
 	bool ready();
 	void eraseMemory();
