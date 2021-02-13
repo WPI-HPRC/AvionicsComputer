@@ -43,7 +43,7 @@ void Looper::startLoops(){
 
 		if(loopIndex != TOTAL_NUM_LOOPS){								// don't start unless all loops registered
 			Serial.println(F("!!! Not all Loops registered !!!"));
-			Serial.print(F("Loops registered: ")); Serial.println(loopIndex);
+			Serial.print(F("Loops registered: ")); Serial.println(loopIndex); // @suppress("Ambiguous problem")
 			return;
 		}
 
@@ -76,7 +76,7 @@ void Looper::stopLoops(){
 	if(running_){
 
 		Serial.println(F("Loops stopped"));
-		Serial.print(F("Looper timestamp: ")); Serial.println(timestamp_);
+		Serial.print(F("Looper timestamp: ")); Serial.println(timestamp_); // @suppress("Ambiguous problem")
 		printOutput();
 		running_ = false;
 

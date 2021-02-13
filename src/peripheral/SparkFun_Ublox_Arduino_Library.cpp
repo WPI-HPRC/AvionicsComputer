@@ -774,7 +774,7 @@ void SFE_UBLOX_GPS::processRTCMframe(uint8_t incoming)
 }
 
 //This function is called for each byte of an RTCM frame
-//Ths user can overwrite this function and process the RTCM frame as they please
+//This user can overwrite this function and process the RTCM frame as they please
 //Bytes can be piped to Serial or other interface. The consumer could be a radio or the internet (Ntrip broadcaster)
 void SFE_UBLOX_GPS::processRTCM(uint8_t incoming)
 {

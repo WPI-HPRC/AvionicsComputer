@@ -18,6 +18,8 @@
 //#include "peripheral/GyroAccel.h"
 //#include "peripheral/LoRaCustom.h"
 
+#include "peripheral/SparkFun_Ublox_Arduino_Library.h"
+
 
 /*
  * Robot has TODO primary states of autonomous operation throughout its mission which begins when the system is powered on
@@ -48,6 +50,8 @@ private:
 
 
 	MPU6050 * robotIMU = new MPU6050();
+
+	SFE_UBLOX_GPS myGPS;
 
 //	LoRaComms * robotRadio = new LoRaComms();
 
