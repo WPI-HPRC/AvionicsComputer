@@ -61,7 +61,7 @@ public:
 		void onStart(uint32_t timestamp){
 			//
 			Serial.println(F("START DRIVETRAIN LOOP"));
-			drive_->imu->gyroCalibrateOnce();
+			//drive_->imu->gyroCalibrateOnce();
 		}
 		void onLoop(uint32_t timestamp){
 			//

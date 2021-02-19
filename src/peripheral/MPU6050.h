@@ -27,7 +27,13 @@ private:
 	const float dt = DT_LOOPER;
 	const float gyroLSB = 65.5;			//Defines Least-significant Bit per deg/s for 500 deg/s sensitivity.
 	const float accelLSB = 2048; 		//Defines Least-significant Bit per g for +-8g sensitivity.
-	const float degToRad = 180 / 3.14159;
+	const float radToDeg = 180 / 3.14159;
+	const float alpha = 0.98;
+	const float maxGravity = 2;
+
+	const float accXBias = ACCEL_X_BIAS;	//Average Accelerometer Bias for X axis
+	const float accYBias = ACCEL_Y_BIAS;	//Average Accelerometer Bias for Y axis
+	const float accZBias = ACCEL_Z_BIAS;	//Average Accelerometer Bias for Z axis
 
 	uint16_t calibrationIndex = 0;  			//This is an index variable used to iterate the recalibrateGyro function.
 	const uint16_t calibrationSamples = 2000;	//This is the total number of calibration samples to be taken per calibration routine.

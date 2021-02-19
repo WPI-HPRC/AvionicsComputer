@@ -35,7 +35,11 @@
 #define PAYLOAD_ROBOT_NUM_LOOPS 2
 
 // Electrical //
+#define ACCEL_X_BIAS 0.018882 //This was calibrated on 1/30/2021
 
+#define ACCEL_Y_BIAS 0.005692 //This was calibrated on 1/30/2021
+
+#define ACCEL_Z_BIAS 0.023977 //This was calibrated on 1/30/2021
 
 // Physical //
 

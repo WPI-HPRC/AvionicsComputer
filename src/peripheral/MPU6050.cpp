@@ -62,12 +62,9 @@ void MPU6050::updateGyroValues(){
 void MPU6050::update(){
 	updateGyroValues();
 
-	if(gyro_x_cal >= 0) gyro_x -= gyro_x_cal;	//Subtract the offset calibration value from the raw gyro_x value.
-	if(gyro_x_cal <= 0) gyro_x -= gyro_x_cal;
-	if(gyro_y_cal >= 0) gyro_y -= gyro_y_cal;	//Subtract the offset calibration value from the raw gyro_y value.
-	if(gyro_y_cal <= 0) gyro_y -= gyro_y_cal;
-	if(gyro_z_cal >= 0) gyro_z -= gyro_z_cal;	//Subtract the offset calibration value from the raw gyro_z value.
-	if(gyro_z_cal <= 0) gyro_z -= gyro_z_cal;
+	gyro_x -= gyro_x_cal;	//Subtract the offset calibration value from the raw gyro_x value.
+	gyro_y -= gyro_y_cal;	//Subtract the offset calibration value from the raw gyro_y value.
+	gyro_z -= gyro_z_cal;	//Subtract the offset calibration value from the raw gyro_z value.
 
 	this->roll += gyro_x / gyroLSB * dt;	//Integrates the angular rate of X axis over dt to return absolute position of X axis.
 	this->pitch += gyro_y / gyroLSB * dt;	//Integrates the angular rate of Y axis over dt to return absolute position of Y axis.
@@ -76,6 +73,10 @@ void MPU6050::update(){
 	accXg = acc_x / accelLSB;	//Converts raw accelerometer values into g's by dividing by the least significant bit.
 	accYg = acc_y / accelLSB;	//Converts raw accelerometer values into g's by dividing by the least significant bit.
 	accZg = acc_z / accelLSB;	//Converts raw accelerometer values into g's by dividing by the least significant bit.
+
+	accXg -= accXBias;	//Subtract the Average Accelerometer Bias from the raw X axis value.
+	accYg -= accYBias;	//Subtract the Average Accelerometer Bias from the raw Y axis value.
+	accZg -= accZBias;	//Subtract the Average Accelerometer Bias from the raw Z axis value.
 
 	complementaryFilter();
 }
@@ -146,29 +147,35 @@ void MPU6050::recalibrateGyro() {
  * An iterative function that filters the roll and pitch for every time the data updates
  */
 void MPU6050::complementaryFilter() {
-	filteredRoll += gyro_x / gyroLSB * dt;	//Integrates the angular rate of X axis over dt to return absolute position of X axis.
-	filteredPitch += gyro_y / gyroLSB * dt;	//Integrates the angular rate of Y axis over dt to return absolute position of Y axis.
+	filteredRoll += gyro_y / gyroLSB * dt;	//Integrates the angular rate of X axis over dt to return absolute position of X axis.
+	filteredPitch += gyro_x / gyroLSB * dt;	//Integrates the angular rate of Y axis over dt to return absolute position of Y axis.
 
 
 	totalAccelVector = sqrt((accXg*accXg)+(accYg*accYg)+(accZg*accZg));  	//Calculates the total accelerometer vector.
 
-	anglePitchAccel = asin((float)accYg/totalAccelVector) * degToRad;       //Calculates the pitch angle.
-	angleRollAccel = asin((float)accXg/totalAccelVector) * -degToRad;       //Calculates the roll angle.
+	//Serial.println(totalAccelVector);
 
-	if (totalAccelVector < 2) {
-		filteredPitch = filteredPitch * 0.98 + anglePitchAccel * 0.02;
-		filteredRoll = filteredRoll * 0.98 + angleRollAccel * 0.02;
+//	anglePitchAccel = asin((float)accYg/totalAccelVector) * degToRad;       //Calculates the pitch angle.
+//	angleRollAccel = asin((float)accXg/totalAccelVector) * -degToRad;       //Calculates the roll angle.
+
+	anglePitchAccel = atan2f(accYg, (sqrt((accXg * accXg) + (accZg * accZg)))) * radToDeg;
+	angleRollAccel = atan2f(-accXg, accZg) * radToDeg;
+
+	if (totalAccelVector < maxGravity) {
+		filteredPitch = filteredPitch * alpha + anglePitchAccel * (1-alpha);
+		filteredRoll = filteredRoll * alpha + angleRollAccel * (1-alpha);
 	}
 
 
 	// TODO prints for debugging, remove when done !
 
-	//Serial.println("Filtered values: ");
-	Serial.print(roll); Serial.print(", ");
-	Serial.print(angleRollAccel); Serial.print(", ");
+//	Serial.print(filteredPitch);
+//	Serial.print(",");
+//	Serial.print(90);
+//	Serial.print(",");
+//	Serial.print(-90);
+//	Serial.print(",");
 	Serial.println(filteredRoll);
-	//Serial.println(filteredRoll);
-
 
 }
 
