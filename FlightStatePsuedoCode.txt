@@ -1,0 +1,32 @@
+DETECT_TIME = 1.5
+G_THRESHOLD = 2
+LAND_DIFF_THRESHOLD = 1
+
+___Standby -> PoweredFlight___
+
+acc = GetAccelerationReadingsFromPastSeconds(DETECT_TIME)
+
+if mean(abs(magnitude(acc))) > G_THRESHOLD * g:
+	PoweredFlightState()
+	
+	
+___PoweredFlight -> UnpoweredFlight___
+acc = GetAccelerationReadingsFromPastSeconds(DETECT_TIME)
+
+if mean(abs(magnitude(acc))) < G_THRESHOLD * g:
+	UnpoweredFlightState()
+	
+	
+___UnpoweredFlight -> Descent___
+alt = GetPastSecondOfAltimeterData()
+
+index = index(alt, max(alt))
+if index in oldest 25% of the second:
+	DescentState()
+	
+	
+___Descent -> Landed___
+alt = GetPastSecondOfAltimeterData()
+
+if max(alt) - min(alt) < LAND_DIFF_THRESHOLD:
+	LandedState()
