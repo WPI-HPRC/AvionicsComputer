@@ -30,3 +30,7 @@ alt = GetPastSecondOfAltimeterData()
 
 if max(alt) - min(alt) < LAND_DIFF_THRESHOLD:
 	LandedState()
+	
+	
+if state != Descent && mean(magnitude(acc)) < G_THRESHOLD * g   or unexcpected state for time since launch:
+	AbortState()
