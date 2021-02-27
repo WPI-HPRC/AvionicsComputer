@@ -15,7 +15,7 @@
 */
 AirbrakeController::AirbrakeController(Looper * looper){
 	runningLooper = looper;
-	robotState = Waiting;
+	flightState = STANDBY;
 };
 
 
@@ -24,14 +24,14 @@ AirbrakeController::AirbrakeController(Looper * looper){
  */
 void AirbrakeController::systemInit(){
 
-	runningLooper->registerLoop(robotLoop);		// robot system loop is registered first in order to be run first
+	runningLooper->registerLoop(airbrakeLoop);		// robot system loop is registered first in order to be run first
 
-	driveTrain->registerEnabledLoops(runningLooper);
+//	driveTrain->registerEnabledLoops(runningLooper);
 
 
 //	robotRadio->init();
 
-	driveTrain->subsystemInit();
+//	driveTrain->subsystemInit();
 
 //	etc.
 
@@ -44,7 +44,7 @@ void AirbrakeController::zeroAllSensors(){
 	//robotStateEstimator->reset(millis());
 	//rocketStateEstimator->reset(millis());
 
-	driveTrain->zeroSensors();
+//	driveTrain->zeroSensors();
 
 }
 
@@ -64,7 +64,7 @@ void AirbrakeController::updateStateMachine(){
 
 
 	runningLooper->printOutput();//TODO Only for debug, func should be private, lazyyy
-	Serial.println(driveTrain->getHeading());
+//	Serial.println(driveTrain->getHeading());
 
 
 
