@@ -15,7 +15,7 @@
 class PIDMotor : public PeripheralInterface {
 private:
 	long encoderPos = 0;
-	Encoder encoder;
+	Encoder * testEncoder = new Encoder(5, 6);
 
 public:
     PIDMotor();

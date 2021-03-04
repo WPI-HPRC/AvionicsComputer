@@ -63,7 +63,7 @@ public:
 		}
 		void onLoop(uint32_t timestamp){
 			//
-			testMotor->update();
+			drive_->testMotor->update();
 			//drive_->imu->update();
 			//Serial.println(timestamp);
 			//driveTrain_->printOutput();
