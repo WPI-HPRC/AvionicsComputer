@@ -13,6 +13,10 @@
 #include "PeripheralInterface.h"
 
 class PIDMotor : public PeripheralInterface {
+private:
+	long encoderPos = 0;
+	Encoder encoder;
+
 public:
     PIDMotor();
 
