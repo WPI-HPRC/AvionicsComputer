@@ -13,6 +13,7 @@
 #include "../peripheral/LoRaCustom.h"
 #include "../peripheral/GyroAccel.h"
 #include "../peripheral/MPU6050.h"
+#include "../peripheral/PIDMotor.h"
 
 
 /*
@@ -38,11 +39,9 @@ private:
 
 
 	uint8_t imuData[12];
-//	GyroAccel * imu;
 	MPU6050 * imu;
 
-//	LoRaComms * radio;
-
+	PIDMotor * testMotor = new PIDMotor();
 
 public:
 
