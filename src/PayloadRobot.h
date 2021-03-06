@@ -52,17 +52,12 @@ private:
 //	LoRaComms * robotRadio = new LoRaComms();
 
 
-//	PIDMotor * leftMotor;			 	// motor driving left side robot tread
-//	PIDMotor * rightMotor;				// motor driving right side robot tread
-
-//	PIDMotor * selfRightingMotor1; 		// motor driving petal (3D print color?)
-//	PIDMotor * selfRightingMotor2; 		// motor driving petal (3D print color?)
-//	PIDMotor * selfRightingMotor3; 		// motor driving petal (3D print color?)
-
-
-//	DriveTrain * driveTrain = new DriveTrain(leftMotor, rightMotor, robotIMU);
 	DriveTrain * driveTrain = new DriveTrain(robotIMU);
 
+
+	//	PIDMotor * selfRightingMotor1; 		// motor driving petal (3D print color?)
+	//	PIDMotor * selfRightingMotor2; 		// motor driving petal (3D print color?)
+	//	PIDMotor * selfRightingMotor3; 		// motor driving petal (3D print color?)
 
 
 

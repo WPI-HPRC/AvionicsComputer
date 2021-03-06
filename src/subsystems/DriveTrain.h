@@ -38,10 +38,31 @@ private:
 	DriveControlState driveControlState;
 
 
-	uint8_t imuData[12];
+	uint8_t leftMotorPWM  = LEFT_MOTOR_PWM_PIN;
+//	uint8_t rightMotorPWM = RIGHT_MOTOR_PWM_PIN;
+
+	uint8_t leftMotorDir  = LEFT_MOTOR_DIR_PIN;
+//	uint8_t rightMotorDir = RIGHT_MOTOR_DIR_PIN;
+
+	uint8_t leftEncoderA = LEFT_ENCODER_A_PIN;
+	uint8_t leftEncoderB = LEFT_ENCODER_B_PIN;
+//	uint8_t rightEncoderA = RIGHT_ENCODER_A_PIN;
+//	uint8_t rightEncoderB = RIGHT_ENCODER_B_PIN
+
+	uint8_t leftCurSense  = LEFT_MOTOR_CUR_PIN;
+//	uint8_t rightCurSense = RIGHT_MOTOR_CUR_PIN;
+
+
+
 	MPU6050 * imu;
 
-	PIDMotor * testMotor = new PIDMotor();
+	PIDMotor * testMotor = new PIDMotor(leftMotorPWM, leftMotorDir, leftCurSense, leftEncoderA, leftEncoderB);
+
+	//	PIDMotor * leftMotor;			 	// motor driving left side robot tread
+	//	PIDMotor * rightMotor;				// motor driving right side robot tread
+
+
+
 
 public:
 
