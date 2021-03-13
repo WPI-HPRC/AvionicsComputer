@@ -25,7 +25,7 @@ DriveTrain::DriveTrain(MPU6050 * imuSensor){
 void DriveTrain::subsystemInit(){
 
 	imu->enable();
-	testMotor->enable();
+	leftMotor->enable();
 
 
 }

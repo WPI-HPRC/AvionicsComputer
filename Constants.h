@@ -39,8 +39,10 @@
 #define LEFT_MOTOR_PWM_PIN  10; 	// TODO
 #define RIGHT_MOTOR_PWM_PIN -1;     // TODO
 
-#define LEFT_MOTOR_DIR_PIN  11; 	// TODO
-#define RIGHT_MOTOR_DIR_PIN -1;     // TODO
+#define LEFT_MOTOR_DIR_PIN_1  8; 	// TODO
+#define LEFT_MOTOR_DIR_PIN_2  9; 	// TODO
+#define RIGHT_MOTOR_DIR_PIN_1 -1;     // TODO
+#define RIGHT_MOTOR_DIR_PIN_2 -1;     // TODO
 
 #define LEFT_ENCODER_A_PIN 	 5; 	// TODO
 #define LEFT_ENCODER_B_PIN 	 6;  	// TODO
@@ -50,6 +52,8 @@
 #define LEFT_MOTOR_CUR_PIN  -1;     // TODO
 #define RIGHT_MOTOR_CUR_PIN -1;     // TODO
 
+//Analog resolution of teensy (16 bit)
+#define ANALOGRES 255;
 
 // Physical //
 

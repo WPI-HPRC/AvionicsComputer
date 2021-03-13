@@ -41,7 +41,8 @@ private:
 	uint8_t leftMotorPWM  = LEFT_MOTOR_PWM_PIN;
 //	uint8_t rightMotorPWM = RIGHT_MOTOR_PWM_PIN;
 
-	uint8_t leftMotorDir  = LEFT_MOTOR_DIR_PIN;
+	uint8_t leftMotorDir1  = LEFT_MOTOR_DIR_PIN_1;
+	uint8_t leftMotorDir2  = LEFT_MOTOR_DIR_PIN_2;
 //	uint8_t rightMotorDir = RIGHT_MOTOR_DIR_PIN;
 
 	uint8_t leftEncoderA = LEFT_ENCODER_A_PIN;
@@ -56,7 +57,7 @@ private:
 
 	MPU6050 * imu;
 
-	PIDMotor * testMotor = new PIDMotor(leftMotorPWM, leftMotorDir, leftCurSense, leftEncoderA, leftEncoderB);
+	PIDMotor * leftMotor = new PIDMotor(leftMotorPWM, leftMotorDir1, leftMotorDir2, leftCurSense, leftEncoderA, leftEncoderB);
 
 	//	PIDMotor * leftMotor;			 	// motor driving left side robot tread
 	//	PIDMotor * rightMotor;				// motor driving right side robot tread
@@ -84,7 +85,7 @@ public:
 		}
 		void onLoop(uint32_t timestamp){
 			//
-			drive_->testMotor->update();
+			drive_->leftMotor->update();
 			//drive_->imu->update();
 			//Serial.println(timestamp);
 			//driveTrain_->printOutput();

@@ -15,10 +15,11 @@
  * @param currentSensorPin is the analog input pin for the motor controller current feedback
  * @param encoderPin is the analog input pin for the potentiometer feedback
  */
-PIDMotor::PIDMotor(uint8_t pwmPin, uint8_t directionPin, uint8_t curSensePin, uint8_t encoderPin) {
+PIDMotor::PIDMotor(uint8_t pwmPin, uint8_t directionPin1, uint8_t directionPin2, uint8_t curSensePin, uint8_t encoderPin) {
 
 	motorPWMpin = pwmPin;
-	motorDirPin = directionPin;
+	motorDirPin1 = directionPin1;
+	motorDirPin2 = directionPin2;
 	currentSensor = curSensePin;
 
 	potPin = encoderPin;
@@ -34,10 +35,11 @@ PIDMotor::PIDMotor(uint8_t pwmPin, uint8_t directionPin, uint8_t curSensePin, ui
  * @param encoderPinA is the encoder signal pin A
  * @param encoderPinB is the encoder signal pin B
  */
-PIDMotor::PIDMotor(uint8_t pwmPin, uint8_t directionPin, uint8_t curSensePin, uint8_t encoderPinA, uint8_t encoderPinB) {
+PIDMotor::PIDMotor(uint8_t pwmPin, uint8_t directionPin1, uint8_t directionPin2, uint8_t curSensePin, uint8_t encoderPinA, uint8_t encoderPinB) {
 
 	motorPWMpin = pwmPin;
-	motorDirPin = directionPin;
+	motorDirPin1 = directionPin1;
+	motorDirPin2 = directionPin2;
 	currentSensor = curSensePin;
 
 	encoderA = encoderPinA;
@@ -49,7 +51,8 @@ PIDMotor::PIDMotor(uint8_t pwmPin, uint8_t directionPin, uint8_t curSensePin, ui
 
 void PIDMotor::enable() {
 
-	attachMotor(motorPWMpin, motorDirPin);
+	attachMotor(motorPWMpin, motorDirPin1, motorDirPin2);
+	setSpeed(0);
 
 	if(currentSensor != 255){						// pin num is a uint so -1 = 255
 		attachCurrentSensor(currentSensor);
@@ -76,8 +79,9 @@ void PIDMotor::disable() {
 
 void PIDMotor::update() {
 
+	setSpeed(0);
 
-	uint32_t newPos;
+	int32_t newPos;
 	newPos = encoder->read();
 
 	if (newPos != encoderPos) {
@@ -91,6 +95,53 @@ void PIDMotor::update() {
 
 }
 
+/*
+ * This method is called from setSpeed() to convert speed values from -1 to 1 into analog values.
+ *@param speed is the desired motor speed from -1 (full speed clockwise) to 1 (full speed counter-clockwise).
+ */
+uint16_t PIDMotor::speedToAnalog(float speed) {
+
+	uint16_t setpoint = abs(speed) * analogRes;
+
+	if (setpoint > analogRes) {
+		setpoint = analogRes;
+	}
+
+	else if (setpoint < 0) {
+		setpoint = 0;
+	}
+
+	return setpoint;
+}
+
+/*
+ * Sets the motor's speed and direction using a value from -1 to 1.
+ * Calls speedToAnalog() function to convert a speed value from -1 to 1 to an analog value.
+ * @param speed is the desired motor speed from -1 (full speed clockwise) to 1 (full speed counter-clockwise).
+ * if speed parameter is 0 the motor controler will not permit to motor to spin.
+ */
+void PIDMotor::setSpeed(float speed) {
+
+	uint16_t setpoint = speedToAnalog(speed);
+
+	Serial.println(setpoint);
+
+	analogWrite(motorPWMpin, setpoint);
+
+	if (speed < 0){
+		digitalWrite(motorDirPin1, LOW);
+		digitalWrite(motorDirPin2, HIGH);
+	}
+	else if (speed > 0){
+		digitalWrite(motorDirPin1, HIGH);
+		digitalWrite(motorDirPin2, LOW);
+	}
+	else {
+		digitalWrite(motorDirPin1, LOW);
+		digitalWrite(motorDirPin2, LOW);
+	}
+
+}
 
 /*
  * Bind the proper motor signal pin, uses pinMode() and
@@ -128,13 +179,15 @@ void PIDMotor::attachEncoder(uint8_t encoderPinA, uint8_t encoderPinB) {
  * Bind the proper motor signal and direction pins, uses pinMode()
  * This function should not be run in a constructor, only during or after setup()
  * @param pwmPin is the pin delivering a PWM signal for the motor controller
- * @param directionPin is the direction toggling for the motor controller
+ * @param directionPin1 is the first direction toggling pin for the motor controller
+ * @param directionPin2 is the second direction toggling pin for the motor controller
  */
-void PIDMotor::attachMotor(uint8_t pwmPin, uint8_t directionPin) {
+void PIDMotor::attachMotor(uint8_t pwmPin, uint8_t directionPin1, uint8_t directionPin2) {
 
-	//use PWMServo library by PaulS ?
 	pinMode(pwmPin, OUTPUT);
-	pinMode(directionPin, OUTPUT);
+	pinMode(directionPin1, OUTPUT);
+	pinMode(directionPin2, OUTPUT);
+
 }
 
 
