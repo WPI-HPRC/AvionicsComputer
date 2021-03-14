@@ -13,7 +13,6 @@
 #include "Encoder.h"
 #include "PWMServo.h"
 #include "PeripheralInterface.h"
-//#include <cmath>
 
 /*
  * Class for a DC motor actuator to be controlled using a PID loop
@@ -62,6 +61,7 @@ public:
     void overridePosition(int64_t val);
 
     uint16_t speedToAnalog(float speed);
+    float fMap(float x, float inMin, float inMax, float outMin, float outMax);
     void setSpeed(float speed);
 
 

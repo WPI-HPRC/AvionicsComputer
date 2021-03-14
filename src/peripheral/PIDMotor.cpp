@@ -51,6 +51,8 @@ PIDMotor::PIDMotor(uint8_t pwmPin, uint8_t directionPin1, uint8_t directionPin2,
 
 void PIDMotor::enable() {
 
+	analogReadRes(8);
+
 	attachMotor(motorPWMpin, motorDirPin1, motorDirPin2);
 	setSpeed(0);
 
@@ -79,19 +81,13 @@ void PIDMotor::disable() {
 
 void PIDMotor::update() {
 
-	setSpeed(0);
+	encoderPos = encoder->read();
 
-	int32_t newPos;
-	newPos = encoder->read();
+}
 
-	if (newPos != encoderPos) {
+int64_t PIDMotor::getPosition() {
 
-		Serial.print("Position = ");
-		Serial.print(newPos);
-		Serial.println();
-
-		encoderPos = newPos;
-	}
+	return encoderPos;
 
 }
 
@@ -114,6 +110,19 @@ uint16_t PIDMotor::speedToAnalog(float speed) {
 	return setpoint;
 }
 
+float PIDMotor::fMap(float x, float inMin, float inMax, float outMin, float outMax) {
+
+	if (x > inMax) {
+		return outMax;
+	}
+
+	if (x < inMin) {
+		return outMin;
+	}
+
+	return ((x - inMin) * (outMax - outMin) / (inMax - inMin)) + outMin;
+}
+
 /*
  * Sets the motor's speed and direction using a value from -1 to 1.
  * Calls speedToAnalog() function to convert a speed value from -1 to 1 to an analog value.
@@ -124,7 +133,7 @@ void PIDMotor::setSpeed(float speed) {
 
 	uint16_t setpoint = speedToAnalog(speed);
 
-	Serial.println(setpoint);
+//	Serial.println(setpoint);
 
 	analogWrite(motorPWMpin, setpoint);
 

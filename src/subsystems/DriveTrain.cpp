@@ -26,7 +26,7 @@ void DriveTrain::subsystemInit(){
 
 	imu->enable();
 	leftMotor->enable();
-
+	rightMotor->enable();
 
 }
 
