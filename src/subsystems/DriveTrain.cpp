@@ -34,12 +34,29 @@ void DriveTrain::subsystemInit(){
  * Get the latest heading value of the drive train chassis
  * @return the latest heading in deg //TODO
  */
-int16_t DriveTrain::getHeading(){
+double DriveTrain::getHeading(){
 
-	return imu->getAcc_z();
+	return imu->getYaw();
 
 }
 
+/*
+ * Performs all actions needed during the Idle state
+ */
+void DriveTrain::idle() {
+	imu->recalibrateGyro();
+
+	// if accel is too much, switch out of idle mode
+	// values of -30 -> 30 are just test values to ensure it exits the loop properly
+	if (imu->getAccYg() > 30 || imu->getAccYg() < -30){
+		driveControlState = DriveStraight;
+		//Serial.println(imu->getRawAcc_y());
+		Serial.println("Exiting idle, current heading: ");
+		Serial.println(getHeading());
+	}
+
+
+}
 
 /*
  * Zero drive train
@@ -60,5 +77,5 @@ void DriveTrain::registerEnabledLoops(Looper * enabledLooper){
  * Print output of drive train
  */
 void DriveTrain::printOutput(){
-	Serial.println(imu->getAcc_z());
+	Serial.println(getHeading());
 }
