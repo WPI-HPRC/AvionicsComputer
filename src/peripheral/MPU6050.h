@@ -73,7 +73,7 @@ public:
 
 	void enable();
 	void disable();
-	void updateGyroValues();
+	void updateSensorValues();
 	void update();
 	void gyroCalibrateOnce();
 	void recalibrateGyro();

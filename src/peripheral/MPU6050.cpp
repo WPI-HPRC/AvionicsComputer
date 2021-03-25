@@ -41,7 +41,7 @@ void MPU6050::disable(){
 /*
  *
  */
-void MPU6050::updateGyroValues(){
+void MPU6050::updateSensorValues(){
 	Wire.beginTransmission(MPU6050_ADDRESS);       	//Starts the transmission with the MPU6050.
 	Wire.write(ACCEL_XOUT_H);                   	//Begins with the ACCEL_XOUT_H register, the rest of the data registers begin there.
 	Wire.endTransmission(false);        			//Leaves the transmition with the MPU6050 open.
@@ -60,7 +60,7 @@ void MPU6050::updateGyroValues(){
  *
  */
 void MPU6050::update(){
-	updateGyroValues();
+	updateSensorValues();
 
 	gyro_x -= gyro_x_cal;	//Subtract the offset calibration value from the raw gyro_x value.
 	gyro_y -= gyro_y_cal;	//Subtract the offset calibration value from the raw gyro_y value.
@@ -91,7 +91,7 @@ void MPU6050::gyroCalibrateOnce() {
   for(int cal_int = 0; cal_int < calibrationSamples; cal_int++){
 	  if(cal_int % 125 == 0)
 		  Serial.print(".");
-	  updateGyroValues();
+	  updateSensorValues();
 	  gyro_x_cal += gyro_x;
 	  gyro_y_cal += gyro_y;
 	  gyro_z_cal += gyro_z;
@@ -117,7 +117,7 @@ void MPU6050::gyroCalibrateOnce() {
  */
 void MPU6050::recalibrateGyro() {
 
-	updateGyroValues();
+	updateSensorValues();
 
 	gyro_x_reCal += gyro_x;
 	gyro_y_reCal += gyro_y;
@@ -153,11 +153,6 @@ void MPU6050::complementaryFilter() {
 
 	totalAccelVector = sqrt((accXg*accXg)+(accYg*accYg)+(accZg*accZg));  	//Calculates the total accelerometer vector.
 
-	//Serial.println(totalAccelVector);
-
-//	anglePitchAccel = asin((float)accYg/totalAccelVector) * degToRad;       //Calculates the pitch angle.
-//	angleRollAccel = asin((float)accXg/totalAccelVector) * -degToRad;       //Calculates the roll angle.
-
 	anglePitchAccel = atan2f(accYg, (sqrt((accXg * accXg) + (accZg * accZg)))) * radToDeg;
 	angleRollAccel = atan2f(-accXg, accZg) * radToDeg;
 
@@ -168,14 +163,7 @@ void MPU6050::complementaryFilter() {
 
 
 	// TODO prints for debugging, remove when done !
-
-//	Serial.print(filteredPitch);
-//	Serial.print(",");
-//	Serial.print(90);
-//	Serial.print(",");
-//	Serial.print(-90);
-//	Serial.print(",");
-	Serial.println(filteredRoll);
+	Serial.println(yaw);
 
 }
 

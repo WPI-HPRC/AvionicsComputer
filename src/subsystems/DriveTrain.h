@@ -61,10 +61,11 @@ public:
 		void onStart(uint32_t timestamp){
 			//
 			Serial.println(F("START DRIVETRAIN LOOP"));
-			//drive_->imu->gyroCalibrateOnce();
+			drive_->imu->gyroCalibrateOnce();
 		}
+
 		void onLoop(uint32_t timestamp){
-			//
+
 			//drive_->imu->recalibrateGyro();
 
 			switch(drive_->driveControlState) {
@@ -89,19 +90,18 @@ public:
 				return;
 			}
 
-
-
 		}
+
 		void onStop(uint32_t timestamp){
 			//
 		}
+
 	} * driveLoop = new DriveLoop(this);	// instantiate the DriveTrain subsystem loop and pass it the instance
 
 
 
 	void subsystemInit();
 
-//	double getHeading();
 	double getHeading();
 
 	void idle();
