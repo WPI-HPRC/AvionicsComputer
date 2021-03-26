@@ -28,6 +28,12 @@ void DriveTrain::subsystemInit(){
 	leftMotor->enable();
 	rightMotor->enable();
 
+	//TODO REMOVE LATER For channel 3 (Throttle)
+	pinMode(21, INPUT);
+
+	//TODO REMOVE LATER For channel 2 (Pitch)
+	pinMode(22, INPUT);
+
 }
 
 

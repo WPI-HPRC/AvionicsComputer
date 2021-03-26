@@ -89,10 +89,11 @@ public:
 			drive_->leftMotor->update();
 			drive_->rightMotor->update();
 
-			uint16_t potVal = analogRead(A0);
+			double leftMotorChannel = pulseIn(21, HIGH);
+			double rightMotorChannel = pulseIn(22, HIGH);
 
-			float leftMotorSpeed = drive_->leftMotor->fMap(potVal, 0.0, 255.0, -1.0, 1.0);
-			float rightMotorSpeed = drive_->rightMotor->fMap(potVal, 0.0, 255.0, -1.0, 1.0);
+			float leftMotorSpeed = drive_->leftMotor->fMap(leftMotorChannel, 1160.0, 1810.0, -1.0, 1.0);
+			float rightMotorSpeed = drive_->rightMotor->fMap(rightMotorChannel, 1160.0, 1810.0, -1.0, 1.0);
 
 			drive_->leftMotor->setSpeed(leftMotorSpeed);
 			drive_->rightMotor->setSpeed(rightMotorSpeed);
