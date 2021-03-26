@@ -11,7 +11,6 @@
 #include "../../Constants.h"
 
 #include "../peripheral/LoRaCustom.h"
-#include "../peripheral/GyroAccel.h"
 #include "../peripheral/MPU6050.h"
 
 

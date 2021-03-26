@@ -27,8 +27,14 @@ void PayloadRobot::systemInit(){
 
 
 //	robotRadio->init();
+	enabledLight->enable();
+
 
 	driveTrain->subsystemInit();
+
+
+
+
 
 //	etc.
 
@@ -54,6 +60,8 @@ void PayloadRobot::beginStateMachine(){
 	Serial.println(F("START ROBOT LOOP"));
 	//zeroAllSensors();
 
+	enabledLight->set(HIGH);
+
 }
 
 
@@ -64,6 +72,8 @@ void PayloadRobot::updateStateMachine(){
 	//Serial.println(driveTrain->getHeading());
 	//Serial.println("hello");
 
+
+	enabledLight->update();
 
 
 

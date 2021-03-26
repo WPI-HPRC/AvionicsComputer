@@ -15,7 +15,7 @@
 
 #include "subsystems/DriveTrain.h"
 
-//#include "peripheral/GyroAccel.h"
+#include "peripheral/IndicatorLED.h"
 //#include "peripheral/LoRaCustom.h"
 
 
@@ -52,6 +52,12 @@ private:
 //	LoRaComms * robotRadio = new LoRaComms();
 
 
+	//TODO make this into a peripheral!
+	//uint8_t enabledLightPin = LED_BUILTIN;
+	IndicatorLED * enabledLight = new IndicatorLED(LED_BUILTIN);
+
+
+
 //	PIDMotor * leftMotor;			 	// motor driving left side robot tread
 //	PIDMotor * rightMotor;				// motor driving right side robot tread
 
@@ -60,8 +66,8 @@ private:
 //	PIDMotor * selfRightingMotor3; 		// motor driving petal (3D print color?)
 
 
-//	DriveTrain * driveTrain = new DriveTrain(leftMotor, rightMotor, robotIMU);
 	DriveTrain * driveTrain = new DriveTrain(robotIMU);
+
 
 
 

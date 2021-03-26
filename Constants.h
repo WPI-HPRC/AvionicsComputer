@@ -90,7 +90,7 @@
 
 /* DEBUG CONSTANTS */
 
-#define USE_DEBUG_SERIAL						// wait for main hardware serial to connect
+//#define USE_DEBUG_SERIAL						// wait for main hardware serial to connect
 
 #define DEBUG_BAUD_RATE 115200
 //2000000

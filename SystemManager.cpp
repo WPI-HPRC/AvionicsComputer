@@ -33,12 +33,12 @@ void SystemManager::mainSetup(){
 	Wire.begin();									// initialize I2C bus
 	Wire.setClock(i2c_freq);						// set its frequency
 
-	SPI.begin();									// initialize SPI bus
+//	SPI.begin();									// initialize SPI bus
 	// Test with setting higher freq SPI
 
 #ifdef USE_DEBUG_SERIAL
 	Serial.begin(baud);								// initialize USB port serial, gotta debug somehow
-#endif
+#endif												// apparently not needed in Teensy
 
 #ifdef USE_PAYLOAD_ROBOT_SYSTEM
 	robot->systemInit();				// initializing system object, registering all its subsystem loops
@@ -73,10 +73,12 @@ void SystemManager::mainLoop(){
 #ifdef USE_DEBUG_SERIAL
 
 		if(!Serial){					// loop this state until serial port is opened, stalls program
+
 			break;
 		}
 		Serial.println(F("Serial debug connected"));
 #endif
+
 
 		state = Running;
 
@@ -84,9 +86,12 @@ void SystemManager::mainLoop(){
 
 	case Running:
 		//Serial.println(F("Running... ")); //Serial.println(millis());
+		// Remember: everything in here runs as fast as possible!
 
 
 		looper->runLoops();
+
+
 
 		//if(runCount == 0)looper->stopLoops();
 		//runCount--;

@@ -59,7 +59,9 @@ public:
 //#ifdef GROUNDSTATION_SYSTEM
 
 #ifdef USE_PAYLOAD_ROBOT_SYSTEM
+
 	PayloadRobot * robot = new PayloadRobot(looper);	// looper is needed for registering all subsystem loops
+
 #endif
 
 //	long runCount = 100000;	// debugging, stopping loops after this many mainLoop() iterations
