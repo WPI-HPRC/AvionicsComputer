@@ -47,6 +47,17 @@ int16_t DriveTrain::getHeading(){
 
 }
 
+/*
+ * Takes float parameters leftMotorSpeed and rightMotorSpeed to command each motor to be driven at commanded speeds.
+ * Parameters should be between -1 and 1.
+ * If above or below -1 to 1, setSpeed will truncate inputs such that the absolute value of the input is no greater than 1.
+ */
+void DriveTrain::driveTank(float leftMotorSpeed, float rightMotorSpeed) {
+
+	leftMotor->setSpeed(leftMotorSpeed);
+	rightMotor->setSpeed(rightMotorSpeed);
+
+}
 
 /*
  * Zero drive train

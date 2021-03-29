@@ -86,21 +86,28 @@ public:
 		}
 		void onLoop(uint32_t timestamp){
 
+			// Updates encoder readings.
 			drive_->leftMotor->update();
 			drive_->rightMotor->update();
 
+			// Reads pins 21 and 22 for PPM signal from RC reciever. pulseIn() records time between rises and falls in signal.
+			// Expected time between 1000 µs to 2000 µs with 1500 µs being default channel position.
 			double leftMotorChannel = pulseIn(21, HIGH);
 			double rightMotorChannel = pulseIn(22, HIGH);
 
+			// Takes motor channels previously read from RC reciever and maps them from -1 to 1.
+			// Assigns these mapped values to leftMotorSpeed and rightMotorSpeed.
 			float leftMotorSpeed = drive_->leftMotor->fMap(leftMotorChannel, 1160.0, 1810.0, -1.0, 1.0);
 			float rightMotorSpeed = drive_->rightMotor->fMap(rightMotorChannel, 1160.0, 1810.0, -1.0, 1.0);
 
-			drive_->leftMotor->setSpeed(leftMotorSpeed);
-			drive_->rightMotor->setSpeed(rightMotorSpeed);
+			// Takes parameters leftMotorSpeed and rightMotorSpeed to command each motor to be driven at commanded speeds.
+			drive_->driveTank(leftMotorSpeed, rightMotorSpeed);
 
+			// Returns position of each motor's encoder and assigns the position to int variables.
 			int32_t leftMotorPosition = drive_->leftMotor->getPosition();
 			int32_t rightMotorPosition = drive_->rightMotor->getPosition();
 
+			// Prints left motor encoder position, then right motor encoder position in the serial monitor for debugging purposes.
 			Serial.print(leftMotorPosition); Serial.print(F(", "));
 			Serial.println(rightMotorPosition);
 
@@ -121,6 +128,7 @@ public:
 //	double getHeading();
 	int16_t getHeading();
 
+	void driveTank(float leftMotorSpeed, float rightMotorSpeed);
 
 	void zeroSensors();
 	void registerEnabledLoops(Looper * enabledLooper);
