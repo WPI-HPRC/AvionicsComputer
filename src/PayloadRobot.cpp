@@ -31,7 +31,14 @@ void PayloadRobot::systemInit(){
 		Serial.println("baro not found");
 	}
 	baro->setZeroAltitude();
+	enabledLight->enable();
+
+
 	driveTrain->subsystemInit();
+
+
+
+
 
 //	etc.
 
@@ -57,6 +64,8 @@ void PayloadRobot::beginStateMachine(){
 	Serial.println(F("START ROBOT LOOP"));
 	//zeroAllSensors();
 
+	enabledLight->set(HIGH);
+
 }
 
 
@@ -75,6 +84,12 @@ void PayloadRobot::updateStateMachine(){
 	//Serial.println(baro->hasLaunched );
 	//Serial.print("apogee?: ");
 	//Serial.println(baro->reachedApogee );
+	//runningLooper->printOutput();//TODO Only for debug, func should be private, lazyyy
+	//Serial.println(driveTrain->getHeading());
+	//Serial.println("hello");
+
+
+	enabledLight->update();
 
 
 

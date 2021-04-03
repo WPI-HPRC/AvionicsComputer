@@ -11,7 +11,6 @@
 #include "../../Constants.h"
 
 #include "../peripheral/LoRaCustom.h"
-#include "../peripheral/GyroAccel.h"
 #include "../peripheral/MPU6050.h"
 
 
@@ -61,16 +60,35 @@ public:
 		void onStart(uint32_t timestamp){
 			//
 			Serial.println(F("START DRIVETRAIN LOOP"));
-
-
-
+			//drive_->imu->gyroCalibrateOnce();
 		}
 		void onLoop(uint32_t timestamp){
 			//
+			//drive_->imu->recalibrateGyro();
 
-			drive_->imu->update();
-			//Serial.println(timestamp);
-			//driveTrain_->printOutput();
+			switch(drive_->driveControlState) {
+
+			case Idle:
+
+				drive_->imu->update();
+
+				//drive_->idle();
+				return;
+			case OpenLoop:
+				return;
+			case DriveStraight:
+				return;
+			case TurnToHeading:
+				return;
+			case PathFollowing:
+				return;
+			default:
+				Serial.print("Unexpected control state: ");
+				Serial.println(drive_->driveControlState);
+				return;
+			}
+
+
 
 		}
 		void onStop(uint32_t timestamp){
@@ -83,9 +101,9 @@ public:
 	void subsystemInit();
 
 //	double getHeading();
-	int16_t getHeading();
+	double getHeading();
 
-
+	void idle();
 	void zeroSensors();
 	void registerEnabledLoops(Looper * enabledLooper);
 	void printOutput();
