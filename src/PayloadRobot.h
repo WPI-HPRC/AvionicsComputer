@@ -13,6 +13,8 @@
 #include "loops/Looper.h"
 #include "loops/loop.h"
 
+
+#include "peripheral/MPL3115A2.h"
 #include "subsystems/DriveTrain.h"
 
 #include "peripheral/IndicatorLED.h"
@@ -50,7 +52,7 @@ private:
 	MPU6050 * robotIMU = new MPU6050();
 
 //	LoRaComms * robotRadio = new LoRaComms();
-
+	Baro_mpl3115A2 * baro = new Baro_mpl3115A2();
 
 	//TODO make this into a peripheral!
 	//uint8_t enabledLightPin = LED_BUILTIN;
@@ -92,6 +94,9 @@ public:
 
 		void onStart(uint32_t timestamp){
 			robot_->beginStateMachine();
+
+			//robot_->baro->setZeroAltitude();
+
 		}
 		void onLoop(uint32_t timestamp){
 			robot_->updateStateMachine();
