@@ -13,8 +13,8 @@
 
 /* MAIN SYSTEM USE? */
 
-//#define USE_AIRBRAKES_SYSTEM				// current system is the airbrakes computer
-#define USE_PAYLOAD_ROBOT_SYSTEM			// current system is the payload robot
+#define USE_AIRBRAKES_SYSTEM				// current system is the airbrakes computer
+//#define USE_PAYLOAD_ROBOT_SYSTEM			// current system is the payload robot
 //#define USE_GROUND_STATION_SYSTEM			// current system is ground station
 
 

@@ -43,8 +43,12 @@ void SystemManager::mainSetup(){
 #ifdef USE_PAYLOAD_ROBOT_SYSTEM
 	robot->systemInit();				// initializing system object, registering all its subsystem loops
 #endif
-
-
+	// TODO: #ifdef USE_PAYLOAD_ROBOT_SYSTEM
+//	robot->systemInit();				// initializing system object, registering all its subsystem loops
+#ifdef USE_AIRBRAKES_CONTROL_SYSTEM
+	controller->systemInit();				// initializing system object, registering all its subsystem loops
+#endif
+  
 	looper->startLoops();				// all subsystems with their loops and peripherals successful init, start
 
 }

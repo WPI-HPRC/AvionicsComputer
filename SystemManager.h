@@ -15,7 +15,9 @@
 #include "Constants.h"
 #include "src/loops/Looper.h"
 #include "src/loops/Loop.h"
+//TODO: Change imports based off constants
 #include "src/PayloadRobot.h"
+#include "src/AirbrakeController.h"
 
 /*
  * Overall system states, main loop execution with everything necessary before and after
@@ -59,9 +61,11 @@ public:
 //#ifdef GROUNDSTATION_SYSTEM
 
 #ifdef USE_PAYLOAD_ROBOT_SYSTEM
-
 	PayloadRobot * robot = new PayloadRobot(looper);	// looper is needed for registering all subsystem loops
-
+//	PayloadRobot * robot = new PayloadRobot(looper);	// looper is needed for registering all subsystem loops
+#endif 
+#ifdef USE_AIRBRAKES_CONTROL_SYSTEM
+	AirbrakeController * controller = new AirbrakeController(looper);
 #endif
 
 //	long runCount = 100000;	// debugging, stopping loops after this many mainLoop() iterations
