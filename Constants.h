@@ -35,7 +35,11 @@
 #define PAYLOAD_ROBOT_NUM_LOOPS 2
 
 // Electrical //
+#define ACCEL_X_BIAS 0.018882 //This was calibrated on 1/30/2021
 
+#define ACCEL_Y_BIAS 0.005692 //This was calibrated on 1/30/2021
+
+#define ACCEL_Z_BIAS 0.023977 //This was calibrated on 1/30/2021
 
 // Physical //
 
@@ -57,7 +61,7 @@
 /* LOOPER CONSTANTS */
 
 // Set to zero for loop as fast as possible
-#define DT_LOOPER 0//0.01							// seconds, 10 milliseconds or 100 Hz
+#define DT_LOOPER 0.01							// seconds, 10 milliseconds or 100 Hz
 
 // Total required loops list space allocated to be run by Looper, different depending on the system running
 #ifdef USE_PAYLOAD_ROBOT_SYSTEM
@@ -78,7 +82,7 @@
  * COMM BUS CONSTANTS
  */
 
-#define I2C_BUS_FREQUENCY 400000		// 400kHz(MPU6050 max)
+#define I2C_BUS_FREQUENCY 100000		// 400kHz(MPU6050 max)
 
 #define SPI_SCK_FREQUENCY 10000000		// 10MHz (LoRa max)
 
@@ -86,7 +90,7 @@
 
 /* DEBUG CONSTANTS */
 
-//TODO #define USE_DEBUG
+#define USE_DEBUG_SERIAL						// wait for main hardware serial to connect
 
 #define DEBUG_BAUD_RATE 115200
 //2000000
