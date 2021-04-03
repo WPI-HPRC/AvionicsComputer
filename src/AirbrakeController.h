@@ -14,6 +14,11 @@
 #include "loops/loop.h"
 
 // Include Subsystems
+#include "peripheral/MPL3115A2.h"
+#include "peripheral/MPU6050.h"
+
+#define BARO_BUFFER_SIZE 100
+#define ACCEL_BUFFER_SIZE 100
 
 enum FlightState {
 	STANDBY,
@@ -31,14 +36,15 @@ private:
 	FlightState flightState;
 
 	// Sensors
-	const int baroBufferSize = 100;
-	float baroBuffer[baroBufferSize];
-	int baroBufIndex;
-	const int accelBufferSize = 100;
-	float accelBuffer[accelBufferSize];
-	int accelBufIndex;
+	float baroBuffer[BARO_BUFFER_SIZE];
+	int baroBufIndex = 0;
+	float accelBuffer[ACCEL_BUFFER_SIZE];
+	int accelBufIndex = 0;
 	float avgBaroArray();
 	float avgAccelArray();
+
+	MPL3115A2* barometer = new MPL3115A2();
+	MPU6050* accelerometer = new MPU6050();
 	// Subsystems
 
 public:

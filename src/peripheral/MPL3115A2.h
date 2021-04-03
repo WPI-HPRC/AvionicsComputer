@@ -12,7 +12,7 @@
 #include "Arduino.h"
 #include "PeripheralInterface.h"
 
-class Baro_mpl3115A2 : public PeripheralInterface {
+class MPL3115A2 : public PeripheralInterface {
 
 private:
     float pressure;
@@ -26,7 +26,7 @@ private:
     uint8_t read8(uint8_t address);
 
 public:
-    Baro_mpl3115A2();
+    MPL3115A2();
     boolean initBaro();
     void setZeroAltitude();
     void enable();

@@ -64,7 +64,7 @@ public:
 	PayloadRobot * robot = new PayloadRobot(looper);	// looper is needed for registering all subsystem loops
 //	PayloadRobot * robot = new PayloadRobot(looper);	// looper is needed for registering all subsystem loops
 #endif 
-#ifdef USE_AIRBRAKES_CONTROL_SYSTEM
+#ifdef USE_AIRBRAKES_SYSTEM
 	AirbrakeController * controller = new AirbrakeController(looper);
 #endif
 
