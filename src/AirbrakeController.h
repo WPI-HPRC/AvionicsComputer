@@ -31,7 +31,14 @@ private:
 	FlightState flightState;
 
 	// Sensors
-
+	const int baroBufferSize = 100;
+	float baroBuffer[baroBufferSize];
+	int baroBufIndex;
+	const int accelBufferSize = 100;
+	float accelBuffer[accelBufferSize];
+	int accelBufIndex;
+	float avgBaroArray();
+	float avgAccelArray();
 	// Subsystems
 
 public:

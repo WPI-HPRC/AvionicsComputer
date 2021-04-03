@@ -66,10 +66,10 @@ void AirbrakeController::updateStateMachine(){
 	runningLooper->printOutput();//TODO Only for debug, func should be private, lazyyy
 //	Serial.println(driveTrain->getHeading());
 
-	switch(flightState){
+	switch(flightState){//conditions for switching state
 		case STANDBY:
 
-			float avgAccel;// average from last 0.1sec
+			float avgAccel = avgAccelArray();// average from last 0.1sec
 			float G_Threshold = 2.0;
 			if(avgAccel > 9.8 * G_Threshold){
 				flightState = POWERED_FLIGHT;
@@ -107,10 +107,30 @@ void AirbrakeController::updateStateMachine(){
 			break;
 		case ABORT:
 			break;
-
-
 	}
 
+
+
+	switch(flightState){//To run while in state
+		case STANDBY:
+
+				break;
+		case POWERED_FLIGHT:
+			//log data
+				break;
+		case UNPOWERED_FLIGHT:
+			//log data
+			//airbrake control
+				break;
+		case DESCENT:
+			//log data
+			//close airbrake
+				break;
+		case LANDED:
+				break;
+		case ABORT:
+				break;
+	}
 
 
 
@@ -120,6 +140,21 @@ void AirbrakeController::updateStateMachine(){
 
 void AirbrakeController::endStateMachine(){
 
+}
+
+float AirbrakeController::avgBaroArray(){
+	float total = 0;
+	for(int i = 0 ; i < baroBufferSize;i++){
+		total += baroBuffer[i];
+	}
+	return total/baroBufferSize;
+}
+float AirbrakeController::avgAccelArray(){
+	float total = 0;
+	for(int i = 0 ; i < accelBufferSize;i++){
+		total += accelBuffer[i];
+	}
+	return total/accelBufferSize;
 }
 
 
