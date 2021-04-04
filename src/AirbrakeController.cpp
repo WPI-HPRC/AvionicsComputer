@@ -15,7 +15,7 @@
 */
 AirbrakeController::AirbrakeController(Looper * looper){
 	runningLooper = looper;
-	flightState = STANDBY;
+	flightState = ON_PAD;
 };
 
 
@@ -68,7 +68,7 @@ void AirbrakeController::updateStateMachine(){
 //	Serial.println(driveTrain->getHeading());
 
 	switch(flightState){//conditions for switching state
-		case STANDBY:
+		case ON_PAD:
 		{
 			/*float avgAccel = avgAccelArray();// average from last 0.1sec
 			float G_Threshold = 2.0;
@@ -116,7 +116,7 @@ void AirbrakeController::updateStateMachine(){
 
 
 	switch(flightState){//To run while in state
-		case STANDBY:
+		case ON_PAD:
 		{
 			barometer->update();
 			float testAlt = barometer->getPressure();
@@ -165,6 +165,11 @@ void AirbrakeController::endStateMachine(){
 
 }
 
+
+/*
+ * Average the altitude values in the Barometer Buffer array and return the result
+ * @return float containing the average of the buffer data readings
+ */
 float AirbrakeController::avgBaroArray(){
 	float total = 0;
 	for(int i = 0 ; i < BARO_BUFFER_SIZE;i++){
@@ -172,6 +177,11 @@ float AirbrakeController::avgBaroArray(){
 	}
 	return total/BARO_BUFFER_SIZE;
 }
+
+/*
+ * Average the acceleration values in the Accelerometer Buffer array and return the result
+ * @return float containing the average of the buffer data readings
+ */
 float AirbrakeController::avgAccelArray(){
 	float total = 0;
 	for(int i = 0 ; i < ACCEL_BUFFER_SIZE;i++){

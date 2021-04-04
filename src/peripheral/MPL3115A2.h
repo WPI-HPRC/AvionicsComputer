@@ -12,6 +12,11 @@
 #include "Arduino.h"
 #include "PeripheralInterface.h"
 
+/*
+ * Class for reading altitude and pressure from the MPL3115A2 barometer
+ * Uses i2c interface
+ *
+ */
 class MPL3115A2 : public PeripheralInterface {
 
 private:
