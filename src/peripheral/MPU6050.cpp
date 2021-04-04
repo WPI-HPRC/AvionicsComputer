@@ -13,7 +13,7 @@
 MPU6050::MPU6050(){}
 
 /*
- *
+ * Powers on the sensor, configures the gyro and accelerometer to the specific FS_SEL range
  */
 void MPU6050::enable(){
 
@@ -39,7 +39,7 @@ void MPU6050::disable(){
 }
 
 /*
- *
+ * Updates raw sensor values for accel, temperature, and gyro
  */
 void MPU6050::updateSensorValues(){
 	Wire.beginTransmission(MPU6050_ADDRESS);       	//Starts the transmission with the MPU6050.
@@ -57,7 +57,7 @@ void MPU6050::updateSensorValues(){
 }
 
 /*
- *
+ * updates sensor values, filters for bias and scaling, and runs values through complimentary filter
  */
 void MPU6050::update(){
 	updateSensorValues();

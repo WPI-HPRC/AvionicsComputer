@@ -8,12 +8,12 @@
 #include "MPU9250.h"
 
 /*
- * Constructor for this class, MPU9250. Should only be one instance from only one MPU6050 board per Arduino.
+ * Constructor for this class, MPU9250. Should only be one instance from only one MPU9250 board per Arduino.
  */
 MPU9250::MPU9250(){}
 
 /*
- *
+ * MPU6050 functionality plus configures magnetometer
  */
 void MPU9250::enable(){
 
@@ -36,13 +36,13 @@ void MPU9250::enable(){
 }
 
 /*
- *
+ * updates raw sensor values for all 3 axes of magnetometer and stores status 2 register value
  */
 void MPU9250::updateSensorValues(){
 	Wire.beginTransmission(MAG_AD);
 	Wire.write(HXL);
 	Wire.endTransmission(false);
-	Wire.requestFrom(MAG_AD, 7, true); 			//Must request 7 bytes to read overflow or sensor won't update
+	Wire.requestFrom(MAG_AD, 7, true); 			//Must request 7 bytes and read overflow or sensor won't update
 
 	magneX = Wire.read() | (Wire.read() << 8); 	//Must read low byte first
 	magneY = Wire.read() | (Wire.read() << 8);
@@ -62,15 +62,18 @@ void MPU9250::updateSensorValues(){
 }
 
 /*
- *
+ * updates all sensor values
  */
 void MPU9250::update(){
 	MPU6050::update();
 	updateSensorValues();
 	//Magnetometer functionality here
-	//complementaryFilter();
+	complementaryFilter();
 }
 
+/*
+ *
+ */
 void MPU9250::complementaryFilter(){
-	//Magnetometer functionality here
+	// TODO magnetometer complimentary filter
 }
