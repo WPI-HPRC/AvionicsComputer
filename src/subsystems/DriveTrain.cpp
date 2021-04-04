@@ -10,7 +10,7 @@
 * Constructor for the drive train subsystem object, should only be one instance, robot only has one drive train
 * @param IMU is the robot's IMU sensor peripheral
 */
-DriveTrain::DriveTrain(MPU6050 * imuSensor){
+DriveTrain::DriveTrain(MPU9250 * imuSensor){
 
 	driveControlState = Idle;
 

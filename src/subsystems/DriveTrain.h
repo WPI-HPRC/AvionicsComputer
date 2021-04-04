@@ -12,7 +12,7 @@
 
 #include "../peripheral/LoRaCustom.h"
 #include "../peripheral/GyroAccel.h"
-#include "../peripheral/MPU6050.h"
+#include "../peripheral/MPU9250.h"
 
 
 /*
@@ -39,14 +39,14 @@ private:
 
 	uint8_t imuData[12];
 //	GyroAccel * imu;
-	MPU6050 * imu;
+	MPU9250 * imu;
 
 //	LoRaComms * radio;
 
 
 public:
 
-	DriveTrain(MPU6050 * imuSensor);
+	DriveTrain(MPU9250 * imuSensor);
 	//	~DriveTrain(){}
 
 	/* Drivetrain loop functionality */

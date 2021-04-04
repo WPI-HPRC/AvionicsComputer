@@ -47,7 +47,7 @@ private:
 	RobotState robotState;					// initial state is Landed
 
 
-	MPU6050 * robotIMU = new MPU6050();
+	MPU9250 * robotIMU = new MPU9250();
 
 //	LoRaComms * robotRadio = new LoRaComms();
 
