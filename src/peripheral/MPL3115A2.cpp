@@ -34,7 +34,7 @@ void MPL3115A2::disable(){
 
 /*
  * Function for reading the current pressure
- * @return pressure in Pascals
+ * @return float containing pressure in Pascals
  */
 float MPL3115A2::readPressure() {
 
@@ -49,7 +49,7 @@ float MPL3115A2::readPressure() {
     Wire.endTransmission(false);//Ending transmission, no longer writing to bus
     Wire.requestFrom(MPL3115A2_ADDRESS, 3, false);//Request three bytes from barometer
     uint32_t pressure = Wire.read();
-    pressure <<= 8;
+    pressure <<= 8;				//format pressure from bytes read
     pressure |= Wire.read();
     pressure <<= 8;
     pressure |= Wire.read();
@@ -60,7 +60,7 @@ float MPL3115A2::readPressure() {
 
 /*
  * Function for reading the current altitude
- * @return altitude in meters
+ * @return float containing altitude in meters
  */
 float MPL3115A2::readAltitude() {
 
@@ -75,7 +75,7 @@ float MPL3115A2::readAltitude() {
     Wire.endTransmission(false);//Ending transmission, no longer writing to bus
     Wire.requestFrom(MPL3115A2_ADDRESS, 3, false);//Request three bytes from barometer
     uint32_t alt = Wire.read();
-    alt <<= 8;
+    alt <<= 8;				//format altitude data
     alt |= Wire.read();
     alt <<= 8;
     alt |= Wire.read();
@@ -133,10 +133,18 @@ bool MPL3115A2::checkLaunched(){
 	return  getAltitude() > 5;
 }
 
-
+/*
+ * function for publicly accessing the last pressure reading
+ * @return float containing last pressure reading
+ */
 float MPL3115A2::getPressure() {
     return this->pressure;
 }
+
+/*
+ * function for publicly accessing the last altitude reading relative to ground
+ * @return float containing last altitude reading
+ */
 float MPL3115A2::getAltitude() {
     return this->altitude - this->zeroAltitude;
 }
@@ -144,7 +152,12 @@ float MPL3115A2::getAltitude() {
 
 
 
-
+/*
+ * function for reading 1 byte from a general register on the barometer using i2c
+ * currently unused
+ * @param uint8_t address: the address of the register to read from
+ * @return uint8_t containing the byte from the address
+ */
 /*
 uint8_t Baro_mpl3115A2::read8(uint8_t address) {
     Wire.beginTransmission(MPL3115A2_ADDRESS);//Beginning transmission with barometer
