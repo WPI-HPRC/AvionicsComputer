@@ -113,8 +113,6 @@ void MPL3115A2::update() {
         this->hasLaunched = checkLaunched();//checks for launch if it hasnt happened yet
     }
 
-
-
 }
 
 /*

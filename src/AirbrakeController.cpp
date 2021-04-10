@@ -16,6 +16,9 @@
 AirbrakeController::AirbrakeController(Looper * looper){
 	runningLooper = looper;
 	flightState = ON_PAD;
+	for(int i = 0 ; i < ACCEL_BUFFER_SIZE;i++){
+		accelBuffer[i] = 0;
+	}
 };
 
 
@@ -31,7 +34,10 @@ void AirbrakeController::systemInit(){
 
 //	robotRadio->init();
 	barometer->enable();
+	barometer->setZeroAltitude();
 	accelerometer->enable();
+
+
 //	driveTrain->subsystemInit();
 
 //	etc.
@@ -60,28 +66,34 @@ void AirbrakeController::beginStateMachine(){
 
 }
 
+/*
+ * Function for transitioning between states and executing routines run in each state. Part of main loop
+ *
+ */
 
 void AirbrakeController::updateStateMachine(){
 
 	Serial.println("UpdateStateMachine");
+	Serial.println(flightState);
 	//runningLooper->printOutput();//TODO Only for debug, func should be private, lazyyy
 //	Serial.println(driveTrain->getHeading());
 
 	switch(flightState){//conditions for switching state
 		case ON_PAD:
 		{
-			/*float avgAccel = avgAccelArray();// average from last 0.1sec
-			float G_Threshold = 2.0;
-			if(avgAccel > 9.8 * G_Threshold){
+			float avgAccel = avgAccelArray();// average from last 0.1sec
+			float G_Threshold = .90;
+
+			if(avgAccel > G_Threshold){
 				flightState = POWERED_FLIGHT;
-			}*/
+			}
 		}
 			break;
 		case POWERED_FLIGHT:
 		{
-			float avgAccel;// average from last 0.1sec
-			float G_Threshold = 2.0;
-			if(avgAccel < 9.8 * G_Threshold){
+
+			float G_Threshold = 0.7;
+			if(avgAccelArray() <  G_Threshold){
 				flightState = UNPOWERED_FLIGHT;
 			}
 		}
@@ -94,7 +106,7 @@ void AirbrakeController::updateStateMachine(){
 			//float index = index(alt, maxAlt)/alt.length
 			if(index < 0.25)
 			{
-				flightState = DESCENT;
+				//flightState = DESCENT;
 			}
 		}
 			break;
@@ -118,27 +130,22 @@ void AirbrakeController::updateStateMachine(){
 	switch(flightState){//To run while in state
 		case ON_PAD:
 		{
-			barometer->update();
-			float testAlt = barometer->getPressure();
-			//Serial.println(testAlt);
-			baroBuffer[baroBufIndex] = testAlt;
-			baroBufIndex = (baroBufIndex + 1)%BARO_BUFFER_SIZE;
+			takeBaroReading();
 			float testAvg = avgBaroArray();
-			//Serial.print("Avg: ");
-			//Serial.println(testAvg);
+			Serial.print("AvgAlt: ");
+			Serial.println(testAvg);
 
-			accelerometer->update();
-			float testAccel = accelerometer->getAccZg();
-			Serial.println(testAccel);
-			accelBuffer[accelBufIndex] = testAccel;
-			accelBufIndex = (accelBufIndex + 1)%ACCEL_BUFFER_SIZE;
+			takeAccelReading();
 			float testAvgAcc = avgAccelArray();
-			Serial.print("Avg: ");
+			Serial.print("Accel: ");Serial.println(accelerometer->getAccZg());
+			Serial.print("AvgAccel: ");
 			Serial.println(testAvgAcc);
 
 		}
 				break;
 		case POWERED_FLIGHT:
+			takeAccelReading();
+			//takeBaroReading()
 			//log data
 				break;
 		case UNPOWERED_FLIGHT:
@@ -190,4 +197,25 @@ float AirbrakeController::avgAccelArray(){
 	return total/ACCEL_BUFFER_SIZE;
 }
 
+/*
+ * Updates the barometer and gets an altitude reading, adds reading to the buffer array
+ * Increments buffer index
+ */
+void AirbrakeController::takeBaroReading(){
+	barometer->update();
+	float reading = barometer->getPressure();
+	baroBuffer[baroBufIndex] = reading;
+	baroBufIndex = (baroBufIndex + 1)%BARO_BUFFER_SIZE;
+}
+
+/*
+ * Updates the accelerometer and gets an accelerationZ reading, adds reading to the buffer array
+ * Increments buffer index
+ */
+void AirbrakeController::takeAccelReading(){
+	accelerometer->update();
+	float reading = accelerometer->getAccZg();
+	accelBuffer[accelBufIndex] = reading;
+	accelBufIndex = (accelBufIndex + 1)%ACCEL_BUFFER_SIZE;
+}
 

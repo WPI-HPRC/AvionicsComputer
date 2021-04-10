@@ -60,6 +60,8 @@ private:
 	int accelBufIndex = 0;
 	float avgBaroArray();
 	float avgAccelArray();
+	void takeBaroReading();
+	void takeAccelReading();
 
 	MPL3115A2* barometer = new MPL3115A2();
 	MPU6050* accelerometer = new MPU6050();
