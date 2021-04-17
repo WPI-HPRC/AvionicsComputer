@@ -56,8 +56,11 @@ private:
 	// Sensors
 	float baroBuffer[BARO_BUFFER_SIZE];
 	int baroBufIndex = 0;
+	float avgAltitude;
+	float maxAvgAltitude = 0;
 	float accelBuffer[ACCEL_BUFFER_SIZE];
 	int accelBufIndex = 0;
+	float avgAccel;
 	float avgBaroArray();
 	float avgAccelArray();
 	void takeBaroReading();

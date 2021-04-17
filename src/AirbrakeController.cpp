@@ -102,11 +102,11 @@ void AirbrakeController::updateStateMachine(){
 		{
 
 			//alt = getAltData(seconds)
-			float index;
+
 			//float index = index(alt, maxAlt)/alt.length
-			if(index < 0.25)
+			if(avgAltitude < maxAvgAltitude - 1)
 			{
-				//flightState = DESCENT;
+				flightState = DESCENT;
 			}
 		}
 			break;
@@ -131,24 +131,25 @@ void AirbrakeController::updateStateMachine(){
 		case ON_PAD:
 		{
 			takeBaroReading();
-			float testAvg = avgBaroArray();
 			Serial.print("AvgAlt: ");
-			Serial.println(testAvg);
-
+			Serial.println(avgAltitude);
+			Serial.print(" Current Alt");
+			Serial.println(barometer->getAltitude());
 			takeAccelReading();
-			float testAvgAcc = avgAccelArray();
 			Serial.print("Accel: ");Serial.println(accelerometer->getAccZg());
 			Serial.print("AvgAccel: ");
-			Serial.println(testAvgAcc);
+			Serial.println(avgAccel);
 
 		}
 				break;
 		case POWERED_FLIGHT:
 			takeAccelReading();
-			//takeBaroReading()
+			takeBaroReading();
 			//log data
 				break;
 		case UNPOWERED_FLIGHT:
+			takeAccelReading();
+			takeBaroReading();
 			//log data
 			//airbrake control
 				break;
@@ -203,9 +204,13 @@ float AirbrakeController::avgAccelArray(){
  */
 void AirbrakeController::takeBaroReading(){
 	barometer->update();
-	float reading = barometer->getPressure();
+	float reading = barometer->getAltitude();
 	baroBuffer[baroBufIndex] = reading;
 	baroBufIndex = (baroBufIndex + 1)%BARO_BUFFER_SIZE;
+	avgAltitude = avgBaroArray();
+	if(avgAltitude > maxAvgAltitude){
+		maxAvgAltitude = avgAltitude;
+	}
 }
 
 /*
@@ -217,5 +222,7 @@ void AirbrakeController::takeAccelReading(){
 	float reading = accelerometer->getAccZg();
 	accelBuffer[accelBufIndex] = reading;
 	accelBufIndex = (accelBufIndex + 1)%ACCEL_BUFFER_SIZE;
+
+	avgAccel = avgAccelArray();
 }
 

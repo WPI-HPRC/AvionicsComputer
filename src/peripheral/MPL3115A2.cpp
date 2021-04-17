@@ -22,6 +22,15 @@ boolean MPL3115A2::initBaro() {
     Wire.endTransmission(false);//Ending transmission, no longer writing to bus
     Wire.requestFrom(MPL3115A2_ADDRESS, 1, false);//Request one byte from barometer
     whoami = Wire.read();//read the byte from barometer whoami
+
+
+    Wire.beginTransmission(MPL3115A2_ADDRESS);//Beginning transmission with barometer
+    Wire.write(0x13);//Accessing event flag generator register
+    uint8_t eventFlags = B00000111;//sets flag register to detect new pressure and alt data
+    Wire.write(eventFlags);
+    Wire.endTransmission(false);//Ending transmission, no longer writing to bus
+
+
     return whoami == 0xC4;
 }
 void MPL3115A2::enable(){
@@ -38,11 +47,24 @@ void MPL3115A2::disable(){
  */
 float MPL3115A2::readPressure() {
 
+	while (read8(MPL3115A2_CTRL_REG1) & 0x02)//read control register 1 (0x26) OST bit (0x02) to check if measurment is ready to be made, and delays if not
+	    delay(10);
+
     Wire.beginTransmission(MPL3115A2_ADDRESS);//Beginning transmission with barometer
     Wire.write(MPL3115A2_CTRL_REG1);//Accessing Control register 1 of barometer
     uint8_t ctrl_reg1 = B00000010;//sets control register to immediately read barometer
     Wire.write(ctrl_reg1);
     Wire.endTransmission(false);//Ending transmission, no longer writing to bus
+
+    //Serial.println("TEST BARO PRESSURE 1");
+
+    uint8_t sta = 0;
+     while (!(sta & 0x04)){//checks bit 2 of status register(0x00), bit 2 indicates new pressure data is avialable, delays otherwise
+       sta = read8(0);
+       //Serial.println(sta);
+       delay(10);
+     }
+    // Serial.println("TEST BARO PRESSURE 2");
 
     Wire.beginTransmission(MPL3115A2_ADDRESS);//Beginning transmission with barometer
     Wire.write(MPL3115A2_REGISTER_PRESSURE_MSB);//Accessing Pressure register of barometer
@@ -64,11 +86,25 @@ float MPL3115A2::readPressure() {
  */
 float MPL3115A2::readAltitude() {
 
+
+	while (read8(MPL3115A2_CTRL_REG1) & 0x02)//read control register 1 (0x26) OST bit (0x02) to check if measurment is ready to be made, and delays if not
+	    delay(10);
+
+
     Wire.beginTransmission(MPL3115A2_ADDRESS);//Beginning transmission with barometer
     Wire.write(MPL3115A2_CTRL_REG1);//Accessing Control register 1 of barometer
     uint8_t ctrl_reg1 = B10000010;//sets control register to immediately read barometer in altitude mode
     Wire.write(ctrl_reg1);
     Wire.endTransmission(false);//Ending transmission, no longer writing to bus
+
+
+    uint8_t sta = 0;
+      while (!(sta & 0x04)){//checks bit 2 of status register(0x00), bit 2 indicates new pressure data is avialable, delays otherwise
+        sta = read8(0);
+        //Serial.println(sta);
+        delay(10);
+      }
+
 
     Wire.beginTransmission(MPL3115A2_ADDRESS);//Beginning transmission with barometer
     Wire.write(MPL3115A2_REGISTER_PRESSURE_MSB);//Accessing Pressure register of barometer
@@ -81,7 +117,7 @@ float MPL3115A2::readAltitude() {
     alt |= Wire.read();
 
     float reading = alt;
-    return reading / 65536.0;
+    return reading / 256.0;
 }
 
 /*
@@ -152,17 +188,15 @@ float MPL3115A2::getAltitude() {
 
 /*
  * function for reading 1 byte from a general register on the barometer using i2c
- * currently unused
  * @param uint8_t address: the address of the register to read from
  * @return uint8_t containing the byte from the address
  */
-/*
-uint8_t Baro_mpl3115A2::read8(uint8_t address) {
+uint8_t MPL3115A2::read8(uint8_t address) {
     Wire.beginTransmission(MPL3115A2_ADDRESS);//Beginning transmission with barometer
     Wire.write(address);//Accessing input register of barometer
     Wire.endTransmission(false);//Ending transmission, no longer writing to bus
     Wire.requestFrom(MPL3115A2_ADDRESS, 1, false);//Request one byte from barometer
     return Wire.read();//return read byte
 }
-*/
+
 
