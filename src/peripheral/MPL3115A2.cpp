@@ -56,7 +56,7 @@ float MPL3115A2::readPressure() {
     Wire.write(ctrl_reg1);
     Wire.endTransmission(false);//Ending transmission, no longer writing to bus
 
-    //Serial.println("TEST BARO PRESSURE 1");
+
 
     uint8_t sta = 0;
      while (!(sta & 0x04)){//checks bit 2 of status register(0x00), bit 2 indicates new pressure data is avialable, delays otherwise
@@ -64,7 +64,7 @@ float MPL3115A2::readPressure() {
        //Serial.println(sta);
        delay(10);
      }
-    // Serial.println("TEST BARO PRESSURE 2");
+
 
     Wire.beginTransmission(MPL3115A2_ADDRESS);//Beginning transmission with barometer
     Wire.write(MPL3115A2_REGISTER_PRESSURE_MSB);//Accessing Pressure register of barometer
@@ -122,10 +122,16 @@ float MPL3115A2::readAltitude() {
 
 /*
  * Function for setting the zero altitude
+ * Takes average of 4 altitude readings and sets zeroAltitude to the result
  * @return void
  */
 void MPL3115A2::setZeroAltitude(){
-	this->zeroAltitude = this->readAltitude();
+	float altAvg = this->readAltitude();
+	for(int i = 0;i<3;i++){
+		altAvg += this->readAltitude();
+	}
+
+	this->zeroAltitude = altAvg/4;
 }
 
 /*

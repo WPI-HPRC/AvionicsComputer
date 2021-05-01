@@ -73,18 +73,18 @@ void AirbrakeController::beginStateMachine(){
 
 void AirbrakeController::updateStateMachine(){
 
-	Serial.println("UpdateStateMachine");
-	Serial.println(flightState);
-	//runningLooper->printOutput();//TODO Only for debug, func should be private, lazyyy
+	//Serial.println("UpdateStateMachine");
+	debugData();
+	//runningLooper->printOutput();//TODO Only for debug, func should be private, lazy
 //	Serial.println(driveTrain->getHeading());
 
 	switch(flightState){//conditions for switching state
 		case ON_PAD:
 		{
 			float avgAccel = avgAccelArray();// average from last 0.1sec
-			float G_Threshold = .90;
+			float G_Threshold = .75;
 
-			if(avgAccel > G_Threshold){
+			if(avgAccel > G_Threshold){//might be better to just use raw accel here?
 				flightState = POWERED_FLIGHT;
 			}
 		}
@@ -92,7 +92,7 @@ void AirbrakeController::updateStateMachine(){
 		case POWERED_FLIGHT:
 		{
 
-			float G_Threshold = 0.7;
+			float G_Threshold = 0.73;
 			if(avgAccelArray() <  G_Threshold){
 				flightState = UNPOWERED_FLIGHT;
 			}
@@ -101,9 +101,6 @@ void AirbrakeController::updateStateMachine(){
 		case UNPOWERED_FLIGHT:
 		{
 
-			//alt = getAltData(seconds)
-
-			//float index = index(alt, maxAlt)/alt.length
 			if(avgAltitude < maxAvgAltitude - 1)
 			{
 				flightState = DESCENT;
@@ -112,11 +109,26 @@ void AirbrakeController::updateStateMachine(){
 			break;
 		case DESCENT:
 		{
-			float alt[BARO_BUFFER_SIZE];// = getAltData(seconds)
-			float landedDiffThreshold = 1;
-			//if(max(alt) - min(alt) < landedDiffThreshold){
-			//	flightState = LANDED;
-			//}
+			//find min and max altitudes in the buffer
+			float maxAltInBuffer = baroBuffer[0];
+			float minAltInBuffer = baroBuffer[0];
+			for(int i = 0;i< BARO_BUFFER_SIZE;i++){
+				if(baroBuffer[i] < minAltInBuffer){
+					minAltInBuffer = baroBuffer[i];
+				}
+
+				if(baroBuffer[i] > maxAltInBuffer){
+					maxAltInBuffer = baroBuffer[i];
+				}
+
+			}
+
+			//Serial.println("AltitudeDiff");
+			//Serial.print(maxAltInBuffer - minAltInBuffer);
+			if(maxAltInBuffer - minAltInBuffer < 7){// if small difference between min and max then landed
+			  flightState = LANDED;
+			}
+
 		}
 			break;
 		case LANDED:
@@ -126,20 +138,11 @@ void AirbrakeController::updateStateMachine(){
 	}
 
 
-
 	switch(flightState){//To run while in state
 		case ON_PAD:
 		{
 			takeBaroReading();
-			Serial.print("AvgAlt: ");
-			Serial.println(avgAltitude);
-			Serial.print(" Current Alt");
-			Serial.println(barometer->getAltitude());
 			takeAccelReading();
-			Serial.print("Accel: ");Serial.println(accelerometer->getAccZg());
-			Serial.print("AvgAccel: ");
-			Serial.println(avgAccel);
-
 		}
 				break;
 		case POWERED_FLIGHT:
@@ -154,16 +157,18 @@ void AirbrakeController::updateStateMachine(){
 			//airbrake control
 				break;
 		case DESCENT:
+			takeAccelReading();
+			takeBaroReading();
 			//log data
 			//close airbrake
 				break;
 		case LANDED:
+			takeAccelReading();
+			takeBaroReading();
 				break;
 		case ABORT:
 				break;
 	}
-
-
 
 
 }
@@ -201,6 +206,7 @@ float AirbrakeController::avgAccelArray(){
 /*
  * Updates the barometer and gets an altitude reading, adds reading to the buffer array
  * Increments buffer index
+ * @return void
  */
 void AirbrakeController::takeBaroReading(){
 	barometer->update();
@@ -216,13 +222,29 @@ void AirbrakeController::takeBaroReading(){
 /*
  * Updates the accelerometer and gets an accelerationZ reading, adds reading to the buffer array
  * Increments buffer index
+ * @return void
  */
 void AirbrakeController::takeAccelReading(){
 	accelerometer->update();
 	float reading = accelerometer->getAccZg();
 	accelBuffer[accelBufIndex] = reading;
 	accelBufIndex = (accelBufIndex + 1)%ACCEL_BUFFER_SIZE;
-
 	avgAccel = avgAccelArray();
+}
+
+/*
+ * Function for printing sensor readings and other data
+ * @return void
+ */
+
+void AirbrakeController::debugData(){
+	Serial.print("FlightState:");Serial.println(flightState);
+	Serial.print("AvgAlt: ");
+	Serial.println(avgAltitude);
+	Serial.print("Current Alt: ");
+	Serial.println(barometer->getAltitude());
+	Serial.print("Accel: ");Serial.println(accelerometer->getAccZg());
+	Serial.print("AvgAccel: ");
+	Serial.println(avgAccel);
 }
 

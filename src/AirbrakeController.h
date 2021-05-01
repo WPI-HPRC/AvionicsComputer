@@ -18,7 +18,7 @@
 #include "peripheral/MPU6050.h"
 
 #define BARO_BUFFER_SIZE 100
-#define ACCEL_BUFFER_SIZE 100
+#define ACCEL_BUFFER_SIZE 50
 
 /*
  * Airbrake controller has TODO primary states of autonomous operation throughout its mission which begins when the system is powered on
@@ -65,7 +65,7 @@ private:
 	float avgAccelArray();
 	void takeBaroReading();
 	void takeAccelReading();
-
+	void debugData();
 	MPL3115A2* barometer = new MPL3115A2();
 	MPU6050* accelerometer = new MPU6050();
 	// Subsystems
