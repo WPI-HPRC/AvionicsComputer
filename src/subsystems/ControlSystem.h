@@ -10,7 +10,8 @@
 
 #include "SubsystemInterface.h"
 #include "../../Constants.h"
-
+#include "../peripheral/MPU6050.h"
+#include "../peripheral/MPL3115A2.h"
 
 enum BrakeState {
 	Inactive,
@@ -22,9 +23,14 @@ class ControlSystem : public SubsystemInterface {
 
 private:
 	BrakeState brakeState;
+	float P;
+	float I;
+	float D;
+	MPU6050 * imu;
+	MPL3115A2 * barometer;
 
 public:
-	ControlSystem()
+	ControlSystem(float Prop, float Int, float Deriv, MPU6050 * imuSensor, MPL3115A2 * barometerSensor);
 
 	class ControlLoop : public Loop {
 		ControlSystem * control_;
