@@ -93,7 +93,7 @@ int64_t PIDMotor::getPosition() {
 
 /*
  * This method is called from setSpeed() to convert speed values from -1 to 1 into analog values.
- *@param speed is the desired motor speed from -1 (full speed clockwise) to 1 (full speed counter-clockwise).
+ * @param speed is the desired motor speed from -1 (full speed clockwise) to 1 (full speed counter-clockwise).
  */
 uint16_t PIDMotor::speedToAnalog(float speed) {
 
@@ -109,7 +109,14 @@ uint16_t PIDMotor::speedToAnalog(float speed) {
 
 	return setpoint;
 }
-
+/*
+ * Mapping fuction used to map a value, x, between two values, outMin and outMax, based on what the inMin and inMax values are.
+ * @param x is the input value to be mapped.
+ * @param inMin is the lowest expected input value that x should be.
+ * @param inMax is the highest expected input value that x should be.
+ * @param outMin is the lowest value of desired output range.
+ * @param outMax is the highest value of desired output range.
+ */
 float PIDMotor::fMap(float x, float inMin, float inMax, float outMin, float outMax) {
 
 	if (x > inMax) {
