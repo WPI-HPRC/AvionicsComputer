@@ -14,6 +14,7 @@
 #include "loops/loop.h"
 
 #include "subsystems/DriveTrain.h"
+#include "subsystems/SelfRighting.h"
 
 //#include "peripheral/GyroAccel.h"
 //#include "peripheral/LoRaCustom.h"
@@ -52,7 +53,9 @@ private:
 //	LoRaComms * robotRadio = new LoRaComms();
 
 
-	DriveTrain * driveTrain = new DriveTrain(robotIMU);
+//	DriveTrain * driveTrain = new DriveTrain(robotIMU);
+
+	SelfRighting * selfRighting = new SelfRighting(robotIMU);
 
 
 	//	PIDMotor * selfRightingMotor1; 		// motor driving petal (3D print color?)

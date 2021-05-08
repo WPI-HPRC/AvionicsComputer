@@ -23,12 +23,12 @@ void PayloadRobot::systemInit(){
 
 	runningLooper->registerLoop(robotLoop);		// robot system loop is registered first in order to be run first
 
-	driveTrain->registerEnabledLoops(runningLooper);
+	selfRighting->registerEnabledLoops(runningLooper);
 
 
 //	robotRadio->init();
 
-	driveTrain->subsystemInit();
+	selfRighting->subsystemInit();
 
 //	etc.
 
@@ -41,7 +41,7 @@ void PayloadRobot::zeroAllSensors(){
 	//robotStateEstimator->reset(millis());
 	//rocketStateEstimator->reset(millis());
 
-	driveTrain->zeroSensors();
+	selfRighting->zeroSensors();
 
 }
 

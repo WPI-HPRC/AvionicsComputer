@@ -49,7 +49,7 @@ private:
 	uint8_t leftEncoderA = LEFT_ENCODER_A_PIN;
 	uint8_t leftEncoderB = LEFT_ENCODER_B_PIN;
 	uint8_t rightEncoderA = RIGHT_ENCODER_A_PIN;
-	uint8_t rightEncoderB = RIGHT_ENCODER_B_PIN
+	uint8_t rightEncoderB = RIGHT_ENCODER_B_PIN;
 
 	uint8_t leftCurSense  = LEFT_MOTOR_CUR_PIN;
 	uint8_t rightCurSense = RIGHT_MOTOR_CUR_PIN;
@@ -78,7 +78,7 @@ public:
 	public:
 		DriveLoop(DriveTrain * instance){
 			drive_ = instance;
-		};
+		}
 
 		void onStart(uint32_t timestamp){
 			//
@@ -112,8 +112,6 @@ public:
 			//
 		}
 	} * driveLoop = new DriveLoop(this);	// instantiate the DriveTrain subsystem loop and pass it the instance
-
-
 
 	void subsystemInit();
 

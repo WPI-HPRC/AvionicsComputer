@@ -32,28 +32,29 @@
 
 /* ROBOT CONSTANTS */
 
-#define PAYLOAD_ROBOT_NUM_LOOPS 2
+#define PAYLOAD_ROBOT_NUM_LOOPS 2 	// main loop and self-righting loop
 
 // Electrical //
 
-#define LEFT_MOTOR_PWM_PIN  10; 	// TODO
-#define RIGHT_MOTOR_PWM_PIN 20;     // TODO
+#define LEFT_MOTOR_PWM_PIN  10 	// TODO
+#define RIGHT_MOTOR_PWM_PIN 20     // TODO
 
-#define LEFT_MOTOR_DIR_PIN_1    8; 		// TODO
-#define LEFT_MOTOR_DIR_PIN_2    9; 		// TODO
-#define RIGHT_MOTOR_DIR_PIN_1  19;     	// TODO
-#define RIGHT_MOTOR_DIR_PIN_2  18;     	// TODO
+#define LEFT_MOTOR_DIR_PIN_1    8 		// TODO
+#define LEFT_MOTOR_DIR_PIN_2    9 		// TODO
+#define RIGHT_MOTOR_DIR_PIN_1  19     	// TODO
+#define RIGHT_MOTOR_DIR_PIN_2  18     	// TODO
 
-#define LEFT_ENCODER_A_PIN 	  5; 	// TODO
-#define LEFT_ENCODER_B_PIN    6;  	// TODO
-#define RIGHT_ENCODER_A_PIN  11;  	// TODO
-#define RIGHT_ENCODER_B_PIN  12;  	// TODO
+#define LEFT_ENCODER_A_PIN 	  5 	// TODO
+#define LEFT_ENCODER_B_PIN    6  	// TODO
+#define RIGHT_ENCODER_A_PIN  11  	// TODO
+#define RIGHT_ENCODER_B_PIN  12  	// TODO
 
-#define LEFT_MOTOR_CUR_PIN  -1;     // TODO
-#define RIGHT_MOTOR_CUR_PIN -1;     // TODO
+#define LEFT_MOTOR_CUR_PIN  -1    // TODO
+#define RIGHT_MOTOR_CUR_PIN -1     // TODO
 
+#define PETAL_1_POT_PIN A3
 //Analog resolution of teensy (16 bit)
-#define ANALOGRES 255;
+#define ANALOGRES 255
 
 // Physical //
 
