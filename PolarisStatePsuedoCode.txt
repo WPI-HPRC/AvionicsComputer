@@ -1,0 +1,53 @@
+DETECT_TIME = 1.5
+G_THRESHOLD = 2
+LAND_ALT_DIFF_THRESHOLD = 1
+LAND_ACC_DIFF_THRESHOLD = TBD
+STABLE_DIFF_THRESHOLD = 5
+
+___onPad -> PoweredFlight___
+
+acc = GetAccelerationReadingsFromPastSeconds(DETECT_TIME)
+
+if mean(abs(magnitude(acc))) > G_THRESHOLD * g:
+	PoweredFlightState()
+	
+	
+___PoweredFlight -> UnpoweredFlight___
+acc = GetAccelerationReadingsFromPastSeconds(DETECT_TIME)
+
+if mean(abs(magnitude(acc))) < G_THRESHOLD * g:
+	UnpoweredFlightState()
+	
+	
+___UnpoweredFlight -> Descent___
+alt = GetPastSecondOfAltimeterData()
+
+index = index(alt, max(alt))
+if index in oldest 25% of the second:
+	DescentState()
+	
+	
+___Descent -> Landed___
+alt = GetPastSecondOfAltimeterData()
+acc = GetAccelerationReadingsFromPastSeconds(DETECT_TIME)
+
+if max(alt) - min(alt) < LAND_ALT_DIFF_THRESHOLD &&
+		&& max(acc) - min(acc) < LAND_ACC_DIFF_THRESHOLD:
+	LandedState()
+	
+	
+if state != Descent && mean(magnitude(acc)) < 0    or unexcpected state for time since launch:
+	AbortState()
+
+___Landed -> Stabilized___
+pitch = GetGyroscopePitchAngle()
+roll = GetGyroscopeRollAngle()
+
+if abs(pitch) < STABLE_DIFF_THRESHOLD && abs(roll) < STABLE_DIFF_THRESHOLD:
+	StablizedState()
+
+___Stabilized -> MissionComplete___
+
+if getCameraPictureTaken() == True:
+	MissionCompleteState()
+
