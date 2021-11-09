@@ -27,11 +27,15 @@
  * STATE DETAILS
  */
 enum RobotState {
-//	TESTING, OnPad, Launch, Coast, Descent,
-//	Landed, SelfRighting, Stabilizing, SendPhoto
-	TESTING,
-	Waiting,
-	Driving
+	STANDBY,
+	POWERED_FLIGHT,
+	UNPOWERED_FLIGHT,
+	DESCENT,
+	LANDED,
+	STABILIZING,
+	TAKE_PHOTO,
+	MISSION_COMPLETE,
+	ABORT
 };
 
 /*
