@@ -45,7 +45,8 @@ void MPU6050::updateGyroValues(){
 	Wire.beginTransmission(MPU6050_ADDRESS);       	//Starts the transmission with the MPU6050.
 	Wire.write(ACCEL_XOUT_H);                   	//Begins with the ACCEL_XOUT_H register, the rest of the data registers begin there.
 	Wire.endTransmission(false);        			//Leaves the transmition with the MPU6050 open.
-	Wire.requestFrom(MPU6050_ADDRESS, 14, true);   	//Requests 14 bytes of data starting from the indicated register. 6 for accelerometer, 2 for temp, 6 for gyro
+	Wire.requestFrom(MPU6050_ADDRESS, 14, true);   	//Requests 14 bytes of data starting from the indicated register.
+													//6 for accelerometer, 2 for temp, 6 for gyro
 
 	this->acc_x = Wire.read() <<8| Wire.read();     //the data for each axis of the accelerometer or gyro is 2 bytes, one high byte and one low
 	this->acc_y = Wire.read() <<8| Wire.read();     //the two must be added together to get the raw sensor value
