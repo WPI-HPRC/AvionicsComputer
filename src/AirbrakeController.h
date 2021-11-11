@@ -32,10 +32,10 @@ private:
 
 	// Sensors
 	const int baroBufferSize = 100;
-	float baroBuffer[baroBufferSize];
+	float baroBuffer[100]; //[baroBufferSize];
 	int baroBufIndex;
 	const int accelBufferSize = 100;
-	float accelBuffer[accelBufferSize];
+	float accelBuffer[100]; //[accelBufferSize];
 	int accelBufIndex;
 	float avgBaroArray();
 	float avgAccelArray();

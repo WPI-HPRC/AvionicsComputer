@@ -68,25 +68,26 @@ void AirbrakeController::updateStateMachine(){
 
 	switch(flightState){//conditions for switching state
 		case STANDBY:
-
+		{
 			float avgAccel = avgAccelArray();// average from last 0.1sec
 			float G_Threshold = 2.0;
 			if(avgAccel > 9.8 * G_Threshold){
 				flightState = POWERED_FLIGHT;
 			}
-
+		}
 			break;
 		case POWERED_FLIGHT:
+		{
 
 			float avgAccel;// average from last 0.1sec
 			float G_Threshold = 2.0;
 			if(avgAccel < 9.8 * G_Threshold){
 				flightState = UNPOWERED_FLIGHT;
 			}
-
+		}
 			break;
 		case UNPOWERED_FLIGHT:
-
+		{
 			//alt = getAltData(seconds)
 			float index;
 			//float index = index(alt, maxAlt)/alt.length
@@ -94,43 +95,47 @@ void AirbrakeController::updateStateMachine(){
 			{
 				flightState = DESCENT;
 			}
-
+		}
 			break;
 		case DESCENT:
-			float alt[];// = getAltData(seconds)
+		{
+			//float alt[] = getAltData(seconds)
 			float landedDiffThreshold = 1;
 			//if(max(alt) - min(alt) < landedDiffThreshold){
 			//	flightState = LANDED;
 			//}
+		}
 			break;
-		case LANDED:
+		case LANDED: {}
 			break;
-		case ABORT:
+		case ABORT: {}
+			break;
+		default:
 			break;
 	}
 
 
 
-	switch(flightState){//To run while in state
-		case STANDBY:
-
-				break;
-		case POWERED_FLIGHT:
-			//log data
-				break;
-		case UNPOWERED_FLIGHT:
-			//log data
-			//airbrake control
-				break;
-		case DESCENT:
-			//log data
-			//close airbrake
-				break;
-		case LANDED:
-				break;
-		case ABORT:
-				break;
-	}
+//	switch(flightState){//To run while in state
+//		case STANDBY:
+//
+//				break;
+//		case POWERED_FLIGHT:
+//			//log data
+//				break;
+//		case UNPOWERED_FLIGHT:
+//			//log data
+//			//airbrake control
+//				break;
+//		case DESCENT:
+//			//log data
+//			//close airbrake
+//				break;
+//		case LANDED:
+//				break;
+//		case ABORT:
+//				break;
+//	}
 
 
 
