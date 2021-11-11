@@ -12,7 +12,7 @@
 */
 PayloadRobot::PayloadRobot(Looper * looper){
 	runningLooper = looper;
-	robotState = Waiting;
+	robotState = STANDBY;
 };
 
 
@@ -48,9 +48,6 @@ void PayloadRobot::systemInit(){
 
 void PayloadRobot::zeroAllSensors(){
 
-	//robotStateEstimator->reset(millis());
-	//rocketStateEstimator->reset(millis());
-
 	driveTrain->zeroSensors();
 
 }
@@ -80,18 +77,32 @@ void PayloadRobot::updateStateMachine(){
 	Serial.println(baro->getPressure() );
 	Serial.print("Altitude: ");
 	Serial.println(baro->getAltitude() );
-	//Serial.print("launched?: ");
-	//Serial.println(baro->hasLaunched );
-	//Serial.print("apogee?: ");
-	//Serial.println(baro->reachedApogee );
-	//runningLooper->printOutput();//TODO Only for debug, func should be private, lazyyy
-	//Serial.println(driveTrain->getHeading());
-	//Serial.println("hello");
 
 
 	enabledLight->update();
 
+	runningLooper->printOutput();//TODO Only for debug, func should be private, lazyyy
 
+	switch(robotState){ //conditions for switching state
+		case STANDBY:
+			break;
+		case POWERED_FLIGHT:
+			break;
+		case UNPOWERED_FLIGHT:
+			break;
+		case DESCENT:
+			break;
+		case LANDED:
+			break;
+		case STABILIZING:
+			break;
+		case TAKE_PHOTO:
+			break;
+		case MISSION_COMPLETE:
+			break;
+		case ABORT:
+			break;
+	}
 
 }
 
